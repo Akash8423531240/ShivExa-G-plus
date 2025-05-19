@@ -1,3 +1,4 @@
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
 const initTopHeader = () => {
   const slot = document.getElementById('top-header-slot');
   if (!slot) return;
@@ -9,6 +10,7 @@ const initTopHeader = () => {
     { img: 'https://via.placeholder.com/56', id: 'user1' },
     { img: 'https://via.placeholder.com/56', id: 'user2' },
     { img: 'https://via.placeholder.com/56', id: 'user3' },
+    { img: 'https://via.placeholder.com/56', id: 'user4' },
   ];
 
   slot.innerHTML = `
@@ -27,28 +29,29 @@ const initTopHeader = () => {
           object-fit: cover;
         ">
         <div>
-          <h1 style="
+          <h1 style=" 
+          font-family: 'Playfair Display', serif;
             font-size: 1.5rem;
             font-weight: bold;
-            color: #000;
+            color: #022b05;
             margin: 0;
           ">ShivExa</h1>
           <p style="
             font-size: 0.9rem;
-            color: #6B7280;
+            color: #424242;
             margin: 0;
           ">Global Plus</p>
         </div>
       </div>
       <div style="display: flex; gap: 16px;">
         <button onclick="window.location='/cart'" style="background: none; border: none; cursor: pointer;">
-          <span style="font-size: 32px;">🛒</span>
+          <span style="font-size:   30px;">🛒</span>
         </button>
         <button onclick="window.location='/activity'" style="background: none; border: none; cursor: pointer;">
-          <span style="font-size: 32px; color: #000;">♡</span>
+          <span style="font-size:  30px; color: #000;">♡</span>
         </button>
         <button onclick="window.location='/post'" style="background: none; border: none; cursor: pointer;">
-          <span style="font-size: 32px;">➕</span>
+          <span style="font-size:  28px;">➕</span>
         </button>
       </div>
     </div>
