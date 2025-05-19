@@ -1,4 +1,3 @@
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
 const initTopHeader = () => {
   const slot = document.getElementById('top-header-slot');
   if (!slot) return;
