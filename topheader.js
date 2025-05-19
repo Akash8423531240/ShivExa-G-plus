@@ -22,8 +22,8 @@ const initTopHeader = () => {
     ">
       <div style="display: flex; align-items: center; gap: 12px;">
         <img src="${logoSrc}" alt="Brand Logo" style="
-          width: 64px;
-          height: 64px;
+          width: 45px;
+          height: 45px;
           border-radius: 50%;
           object-fit: cover;
         ">
@@ -36,20 +36,23 @@ const initTopHeader = () => {
           ">ShivExa</h1>
           <p style="
             font-size: 0.9rem;
-            color: #6B7280;
+            color:  #06380a;
             margin: 0;
+            font style: lemonada-semi-bold;
           ">Global Plus</p>
+          color:  #747171;
+          font style: wc mano nejra bold;
         </div>
       </div>
       <div style="display: flex; gap: 16px;">
         <button onclick="window.location='/cart'" style="background: none; border: none; cursor: pointer;">
-          <span style="font-size: 32px;">🛒</span>
+          <span style="font-size:   26px;">🛒</span>
         </button>
         <button onclick="window.location='/activity'" style="background: none; border: none; cursor: pointer;">
-          <span style="font-size: 32px; color: #000;">♡</span>
+          <span style="font-size:   26px;">♡</span>
         </button>
         <button onclick="window.location='/post'" style="background: none; border: none; cursor: pointer;">
-          <span style="font-size: 32px;">➕</span>
+          <span style="font-size:   26px;">➕</span>
         </button>
       </div>
     </div>
