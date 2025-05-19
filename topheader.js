@@ -6,7 +6,7 @@ const initTopHeader = () => {
   // TODO: Replace with dynamic logo src from admin panel
   const logoSrc = 'https://via.placeholder.com/64';
   const stories = [
-    { img: 'https://via.placeholder.com/56', username: 'friend1' },
+    { img: 'https://via.placeholdercom/56', username: 'friend1' },
     { img: 'https://via.placeholder.com/56', username: 'friend2' },
     { img: 'https://via.placeholder.com/56', username: 'friend3' },
     { img: 'https://via.placeholder.com/56', username: 'friend4' },
