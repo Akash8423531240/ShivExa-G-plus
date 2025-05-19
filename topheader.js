@@ -34,7 +34,6 @@ const initTopHeader = () => {
   color: #06380a;
   margin: 0;
 ">ShivExa</h1>
-
   <p style="
     font-family: 'Montserrat', sans-serif;   /* add the Google Font link in <head> */
     font-size: 0.9rem;
