@@ -45,7 +45,7 @@ const initTopHeader = () => {
           <span style="font-size: 32px;">🛒</span>
         </button>
         <button onclick="window.location='/activity'" style="background: none; border: none; cursor: pointer;">
-          <span style="font-size: 32px;">❤️</span>
+          <span style="font-size: 32px; color: #000;">♡</span>
         </button>
         <button onclick="window.location='/post'" style="background: none; border: none; cursor: pointer;">
           <span style="font-size: 32px;">➕</span>
@@ -87,7 +87,7 @@ const initTopHeader = () => {
               font-size: 16px;
             ">+</div>
           </div>
-          <p style="text-align: center; font-size: 0.8rem; margin: 4px 0 0;">Your Story</p>
+          <p style="text-align: center; font-size: 0.8rem; color: #000; margin: 4px 0 0;">Your Story</p>
         </div>
         ${followedStories.map(story => `
           <div style="flex: 0 0 auto;">
@@ -112,7 +112,7 @@ const initTopHeader = () => {
                 mask: linear-gradient(#fff 0 0);
               "></div>
             </div>
-            <p style="text-align: center; font-size: 0.8rem; margin: 4px 0 0;">${story.id}</p>
+            <p style="text-align: center; font-size: 0.8rem; color: #000; margin: 4px 0 0;">${story.id}</p>
           </div>
         `).join('')}
       </div>
