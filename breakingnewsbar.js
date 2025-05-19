@@ -28,9 +28,9 @@ const initBreakingNewsBar = () => {
   slot.innerHTML = `
     <div style="
       background: white;
-      padding: 30px 40px;
+      padding: 60px 70px;
       border-radius: 12px;
-      box-shadow: 0 15px 16px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       margin: 16px 20px;
     ">
       <div style="display: flex; align-items: center; gap: 12px;">
