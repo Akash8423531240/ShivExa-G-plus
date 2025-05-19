@@ -9,6 +9,7 @@ const initTopHeader = () => {
     { img: 'https://via.placeholder.com/56', id: 'user1' },
     { img: 'https://via.placeholder.com/56', id: 'user2' },
     { img: 'https://via.placeholder.com/56', id: 'user3' },
+    { img: 'https://via.placeholder.com/56', id: 'user4' },
   ];
 
   slot.innerHTML = `
