@@ -61,33 +61,35 @@ const initTopHeader = () => {
         -ms-overflow-style: none;
       ">
         <div style="flex: 0 0 auto;">
-          <div style="
-            position: relative;
-            width: 56px;
-            height: 56px;
-          ">
-            <img src="https://via.placeholder.com/56" alt="Your Story" style="
+          <button onclick="window.location='/add-story'" style="background: none; border: none; cursor: pointer;">
+            <div style="
+              position: relative;
               width: 56px;
               height: 56px;
-              border-radius: 50%;
-              object-fit: cover;
             ">
-            <div style="
-              position: absolute;
-              bottom: 0;
-              right: 0;
-              width: 24px;
-              height: 24px;
-              background: #000;
-              color: white;
-              border-radius: 50%;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-size: 16px;
-            ">+</div>
-          </div>
-          <p style="text-align: center; font-size: 0.8rem; color: #000; margin: 4px 0 0;">Your Story</p>
+              <img src="https://via.placeholder.com/56" alt="Your Story" style="
+                width: 56px;
+                height: 56px;
+                border-radius: 50%;
+                object-fit: cover;
+              ">
+              <div style="
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 24px;
+                height: 24px;
+                background: #000;
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+              ">+</div>
+            </div>
+            <p style="text-align: center; font-size: 0.8rem; color: #000; margin: 4px 0 0;">Your Story</p>
+          </button>
         </div>
         ${followedStories.map(story => `
           <div style="flex: 0 0 auto;">
