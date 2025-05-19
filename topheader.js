@@ -1,3 +1,4 @@
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
 const initTopHeader = () => {
   const slot = document.getElementById('top-header-slot');
   if (!slot) return;
@@ -8,6 +9,7 @@ const initTopHeader = () => {
     { img: 'https://via.placeholder.com/56', username: 'friend1' },
     { img: 'https://via.placeholder.com/56', username: 'friend2' },
     { img: 'https://via.placeholder.com/56', username: 'friend3' },
+    { img: 'https://via.placeholder.com/56', username: 'friend4' },
   ];
 
   slot.innerHTML = `
@@ -30,6 +32,7 @@ const initTopHeader = () => {
         ">
         <div>
           <h1 style="
+          font-family: 'Playfair Display', serif; 
             font-size: 1.25rem;
             font-weight: bold;
             color: #075E37;
