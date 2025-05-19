@@ -27,20 +27,22 @@ const initTopHeader = () => {
           border-radius: 50%;
           object-fit: cover;
         ">
-        <div>
-          <h1 style="
-            font-size: 1.5rem;
-            font-weight: bold;
-            font-style: lemonada-semi-bold;
-            color: #06380a;
-            margin: 0;
-          ">ShivExa</h1>
-          <p style="
-            font-size: 0.9rem;
-            color:  #747171;
-            margin: 0;
-          ">Global Plus</p
-        </div>
+        <h1 style="
+  font-family: 'Playfair Display', serif;  /* add the Google Font link in <head> */
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #06380a;
+  margin: 0;
+">ShivExa</h1>
+
+  <p style="
+    font-family: 'Montserrat', sans-serif;   /* add the Google Font link in <head> */
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #747171;
+    margin: 0;
+  ">Global Plus</p>
+</div>
       </div>
       <div style="display: flex; gap: 16px;">
         <button onclick="window.location='/cart'" style="background: none; border: none; cursor: pointer;">
