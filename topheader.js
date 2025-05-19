@@ -31,17 +31,15 @@ const initTopHeader = () => {
           <h1 style="
             font-size: 1.5rem;
             font-weight: bold;
-            color: #000;
+            font-style: lemonada-semi-bold;
+            color: #06380a;
             margin: 0;
           ">ShivExa</h1>
           <p style="
             font-size: 0.9rem;
-            color:  #06380a;
+            color:  #747171;
             margin: 0;
-            font style: lemonada-semi-bold;
-          ">Global Plus</p>
-          color:  #747171;
-          font style: wc mano nejra bold;
+          ">Global Plus</p
         </div>
       </div>
       <div style="display: flex; gap: 16px;">
