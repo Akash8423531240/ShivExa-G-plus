@@ -1,168 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Newspaper Section</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
-  <style>
-    .newspaper-section {
-      display: flex;
-      justify-content: space-around;
-      padding: 20px;
-    }
-    .newspaper-box {
-      perspective: 1000px;
-      width: 45%;
-    }
-    .swiper-container {
-      transform: rotateY(10deg);
-      box-shadow: 10px 10px 20px rgba(0,0,0,0.3);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .newspaper-box:hover .swiper-container {
-      transform: rotateY(0deg);
-      box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
-    }
-    .swiper-slide {
-      cursor: pointer;
-    }
-    .swiper-slide img {
-      width: 100%;
-      height: auto;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.4);
-    }
-    .modal-content {
-      background-color: #fefefe;
-      margin: 5% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      max-width: 1000px;
-    }
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .modal-swiper {
-      width: 100%;
-      height: 80vh;
-    }
-    .modal-swiper .swiper-slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Newspaper</title>
+    <style>
+        /* CSS Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        .newspaper-container {
+            display: flex;
+            width: 100%;
+            gap: 10px;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        
+        .news-box {
+            width: 50%;
+            height: 96px; /* Approximately 1 inch */
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .news-box h3 {
+            margin: 0;
+            padding: 5px;
+            background: #333;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .slider {
+            display: flex;
+            width: 300%; /* 3 items */
+            height: calc(96px - 28px); /* Adjust for heading */
+        }
+        
+        .slider img { /* Note: Typo in class name to match your HTML */
+            width: 33.33%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+        
+        /* Animation for sliding */
+        #boxA .slider {
+            animation: slideA 6s infinite;
+        }
+        
+        #boxB .slider {
+            animation: slideB 6s infinite;
+        }
+        
+        @keyframes slideA {
+            0%, 33% { transform: translateX(0); }
+            33.33%, 66% { transform: translateX(-33.33%); }
+            66.66%, 100% { transform: translateX(-66.66%); }
+        }
+        
+        @keyframes slideB {
+            0%, 33% { transform: translateX(0); }
+            33.33%, 66% { transform: translateX(-33.33%); }
+            66.66%, 100% { transform: translateX(-66.66%); }
+        }
+        
+        /* FULLSCREEN MODAL */
+        #fullscreenView {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 100;
+            overflow-y: scroll;
+        }
+        
+        .news-content {
+            padding: 20px;
+        }
+        
+        .news-content img {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-  <div class="newspaper-section">
-    <div class="newspaper-box">
-      <div class="swiper-container swiper1">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide" data-newspaper="1"><img src="newspaper1.jpg" alt="Newspaper 1"></div>
-          <div class="swiper-slide" data-newspaper="2"><img src="newspaper2.jpg" alt="Newspaper 2"></div>
-          <div class="swiper-slide" data-newspaper="3"><img src="newspaper3.jpg" alt="Newspaper 3"></div>
+    <!-- Your existing header and breaking news here -->
+    
+    <!-- Newspaper Boxes -->
+    <div class="newspaper-container">
+        <!-- BOX A (Left) -->
+        <div class="news-box" id="boxA">
+            <h3>Daily Newspapers</h3>
+            <div class="slider">
+                <img src="news1.jpg" onclick="openFullscreen(1)" alt="News 1">
+                <img src="news2.jpg" onclick="openFullscreen(2)" alt="News 2">
+                <img src="news3.jpg" onclick="openFullscreen(3)" alt="News 3">
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="newspaper-box">
-      <div class="swiper-container swiper2">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide" data-newspaper="4"><img src="newspaper4.jpg" alt="Newspaper 4"></div>
-          <div class="swiper-slide" data-newspaper="5"><img src="newspaper5.jpg" alt="Newspaper 5"></div>
-          <div class="swiper-slide" data-newspaper="6"><img src="newspaper6.jpg" alt="Newspaper 6"></div>
+
+        <!-- BOX B (Right) -->
+        <div class="news-box" id="boxB">
+            <h3>Regional Newspapers</h3>
+            <div class="slider">
+                <img src="news4.jpg" onclick="openFullscreen(4)" alt="News 4">
+                <img src="news5.jpg" onclick="openFullscreen(5)" alt="News 5">
+                <img src="news6.jpg" onclick="openFullscreen(6)" alt="News 6">
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <div class="swiper-container modal-swiper">
-        <div class="swiper-wrapper"></div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-      </div>
+    <!-- FULLSCREEN MODAL -->
+    <div id="fullscreenView" onclick="closeFullscreen()">
+        <div class="news-content">
+            <!-- This will be populated dynamically -->
+            <h2 id="fullscreenTitle">Newspaper Title</h2>
+            <!-- Example pages - in real app these would come from database -->
+            <img src="page1.jpg" alt="Page 1">
+            <img src="page2.jpg" alt="Page 2">
+            <img src="page3.jpg" alt="Page 3">
+            <!-- ... up to 15 pages -->
+        </div>
     </div>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-  <script>
-    var swiper1 = new Swiper('.swiper1', {
-      loop: true,
-      autoplay: {
-        delay: 2000,
-      },
-    });
-
-    var swiper2 = new Swiper('.swiper2', {
-      loop: true,
-      autoplay: {
-        delay: 2000,
-      },
-    });
-
-    var modalSwiper;
-
-    document.querySelectorAll('.swiper-slide').forEach(function(slide) {
-      slide.addEventListener('click', function() {
-        var newspaperId = this.getAttribute('data-newspaper');
-        openModal(newspaperId);
-      });
-    });
-
-    function openModal(newspaperId) {
-      var wrapper = document.querySelector('.modal-swiper .swiper-wrapper');
-      wrapper.innerHTML = '';
-      for (var i = 1; i <= 15; i++) {
-        var slide = document.createElement('div');
-        slide.className = 'swiper-slide';
-        var img = document.createElement('img');
-        img.src = 'newspaper' + newspaperId + '_page' + i + '.jpg';
-        slide.appendChild(img);
-        wrapper.appendChild(slide);
-      }
-      document.getElementById('modal').style.display = 'block';
-      
-      if (modalSwiper) {
-        modalSwiper.destroy();
-      }
-      modalSwiper = new Swiper('.modal-swiper', {
-        loop: true,
-        pagination: {
-          el: '.swiper-pagination',
-        },
-        navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
-        },
-      });
-    }
-
-    document.querySelector('.close').addEventListener('click', function() {
-      document.getElementById('modal').style.display = 'none';
-    });
-  </script>
+    <script>
+        // JavaScript functionality
+        function openFullscreen(newsId) {
+            const fullscreen = document.getElementById('fullscreenView');
+            // In real app, you would fetch the newspaper content here
+            // For demo, we just show the modal
+            document.getElementById('fullscreenTitle').textContent = 
+                `Newspaper ${newsId} - Page 1 of 15`;
+            fullscreen.style.display = 'block';
+            
+            // Prevent body scrolling when fullscreen is open
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeFullscreen() {
+            document.getElementById('fullscreenView').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Auto-advance sliders (alternative approach)
+        function rotateSliders() {
+            const sliders = document.querySelectorAll('.slider');
+            
+            sliders.forEach(slider => {
+                const first = slider.children[0];
+                slider.style.transition = 'transform 0.5s ease';
+                slider.style.transform = 'translateX(-33.33%)';
+                
+                setTimeout(() => {
+                    slider.appendChild(first.cloneNode(true));
+                    first.remove();
+                    slider.style.transition = 'none';
+                    slider.style.transform = 'translateX(0)';
+                }, 2000);
+            });
+            
+            setTimeout(rotateSliders, 6000);
+        }
+        
+        // Start the slider rotation after page loads
+        window.onload = function() {
+            setTimeout(rotateSliders, 2000);
+        };
+    </script>
 </body>
-    </html>
+</html>
