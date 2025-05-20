@@ -1,192 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Today Newspaper Section</title>
-    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
-    <style>
-        .today-newspaper {
-            background-color: #f0f0f0;
-            padding: 20px;
-            font-family: Arial, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .newspaper-cards {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            width: 100%;
-        }
-
-        .newspaper-card {
-            flex: 0 0 48%;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            padding: 20px;
-            cursor: pointer;
-        }
-
-        .slideshow {
-            position: relative;
-            height: 300px;
-            overflow: hidden;
-        }
-
-        .slideshow-wrapper {
-            display: flex;
-            height: 100%;
-            transition: transform 0.5s ease;
-        }
-
-        .slideshow-wrapper img {
-            flex: 0 0 auto;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .newspaper-title {
-            text-align: center;
-            font-family: 'Chewy', cursive;
-            font-size: 24px;
-            margin-top: 10px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 80%;
-            max-height: 80%;
-            overflow: auto;
-            position: relative;
-        }
-
-        .modal-content img {
-            width: 100%;
-            height: auto;
-        }
-
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 30px;
-            cursor: pointer;
-            color: #333;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Newspaper Section</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+  <style>
+    .newspaper-section {
+      display: flex;
+      justify-content: space-around;
+      padding: 20px;
+    }
+    .newspaper-box {
+      perspective: 1000px;
+      width: 45%;
+    }
+    .swiper-container {
+      transform: rotateY(10deg);
+      box-shadow: 10px 10px 20px rgba(0,0,0,0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .newspaper-box:hover .swiper-container {
+      transform: rotateY(0deg);
+      box-shadow: 5px 5px 10px rgba(0,0,0,0.2);
+    }
+    .swiper-slide {
+      cursor: pointer;
+    }
+    .swiper-slide img {
+      width: 100%;
+      height: auto;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 1000px;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .modal-swiper {
+      width: 100%;
+      height: 80vh;
+    }
+    .modal-swiper .swiper-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  </style>
 </head>
 <body>
-    <section class="today-newspaper">
-        <h2>Today Newspaper</h2>
-        <div class="newspaper-cards">
-            <div class="newspaper-card" data-full-image="https://placehold.co/800x600">
-                <div class="slideshow">
-                    <div class="slideshow-wrapper">
-                        <img src="https://placehold.co/400x300?text=News+1+Img+1" alt="Newspaper 1 Image 1">
-                        <img src="https://placehold.co/400x300?text=News+1+Img+2" alt="Newspaper 1 Image 2">
-                        <img src="https://placehold.co/400x300?text=News+1+Img+3" alt="Newspaper 1 Image 3">
-                    </div>
-                </div>
-                <div class="newspaper-title">Daily News</div>
-            </div>
-            <div class="newspaper-card" data-full-image="https://placehold.co/800x600">
-                <div class="slideshow">
-                    <div class="slideshow-wrapper">
-                        <img src="https://placehold.co/400x300?text=News+2+Img+1" alt="Newspaper 2 Image 1">
-                        <img src="https://placehold.co/400x300?text=News+2+Img+2" alt="Newspaper 2 Image 2">
-                        <img src="https://placehold.co/400x300?text=News+2+Img+3" alt="Newspaper 2 Image 3">
-                    </div>
-                </div>
-                <div class="newspaper-title">Morning Post</div>
-            </div>
+  <div class="newspaper-section">
+    <div class="newspaper-box">
+      <div class="swiper-container swiper1">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" data-newspaper="1"><img src="newspaper1.jpg" alt="Newspaper 1"></div>
+          <div class="swiper-slide" data-newspaper="2"><img src="newspaper2.jpg" alt="Newspaper 2"></div>
+          <div class="swiper-slide" data-newspaper="3"><img src="newspaper3.jpg" alt="Newspaper 3"></div>
         </div>
-    </section>
-
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close">×</span>
-            <img id="full-image" src="" alt="Full Newspaper">
-        </div>
+      </div>
     </div>
+    <div class="newspaper-box">
+      <div class="swiper-container swiper2">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" data-newspaper="4"><img src="newspaper4.jpg" alt="Newspaper 4"></div>
+          <div class="swiper-slide" data-newspaper="5"><img src="newspaper5.jpg" alt="Newspaper 5"></div>
+          <div class="swiper-slide" data-newspaper="6"><img src="newspaper6.jpg" alt="Newspaper 6"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Slideshow functionality
-            const slideshows = document.querySelectorAll('.slideshow');
-            slideshows.forEach(slideshow => {
-                const wrapper = slideshow.querySelector('.slideshow-wrapper');
-                const images = wrapper.querySelectorAll('img');
-                const firstImage = images[0].cloneNode(true);
-                wrapper.appendChild(firstImage);
-                let currentIndex = 0;
-                const imageWidth = slideshow.offsetWidth;
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="swiper-container modal-swiper">
+        <div class="swiper-wrapper"></div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </div>
+  </div>
 
-                function slide() {
-                    wrapper.style.transition = 'transform 0.5s ease';
-                    currentIndex++;
-                    wrapper.style.transform = `translateX(-${imageWidth * currentIndex}px)`;
+  <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+  <script>
+    var swiper1 = new Swiper('.swiper1', {
+      loop: true,
+      autoplay: {
+        delay: 2000,
+      },
+    });
 
-                    if (currentIndex === images.length) {
-                        setTimeout(() => {
-                            wrapper.style.transition = 'none';
-                            currentIndex = 0;
-                            wrapper.style.transform = `translateX(0)`;
-                        }, 500);
-                    }
-                }
+    var swiper2 = new Swiper('.swiper2', {
+      loop: true,
+      autoplay: {
+        delay: 2000,
+      },
+    });
 
-                setInterval(slide, 3000);
-            });
+    var modalSwiper;
 
-            // Modal functionality
-            const modal = document.getElementById('modal');
-            const fullImage = document.getElementById('full-image');
-            const closeBtn = document.querySelector('.close');
+    document.querySelectorAll('.swiper-slide').forEach(function(slide) {
+      slide.addEventListener('click', function() {
+        var newspaperId = this.getAttribute('data-newspaper');
+        openModal(newspaperId);
+      });
+    });
 
-            document.querySelectorAll('.newspaper-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const fullSrc = card.getAttribute('data-full-image');
-                    fullImage.src = fullSrc;
-                    modal.style.display = 'flex';
-                });
-            });
+    function openModal(newspaperId) {
+      var wrapper = document.querySelector('.modal-swiper .swiper-wrapper');
+      wrapper.innerHTML = '';
+      for (var i = 1; i <= 15; i++) {
+        var slide = document.createElement('div');
+        slide.className = 'swiper-slide';
+        var img = document.createElement('img');
+        img.src = 'newspaper' + newspaperId + '_page' + i + '.jpg';
+        slide.appendChild(img);
+        wrapper.appendChild(slide);
+      }
+      document.getElementById('modal').style.display = 'block';
+      
+      if (modalSwiper) {
+        modalSwiper.destroy();
+      }
+      modalSwiper = new Swiper('.modal-swiper', {
+        loop: true,
+        pagination: {
+          el: '.swiper-pagination',
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      });
+    }
 
-            closeBtn.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-        });
-    </script>
+    document.querySelector('.close').addEventListener('click', function() {
+      document.getElementById('modal').style.display = 'none';
+    });
+  </script>
 </body>
-</html>
+    </html>
