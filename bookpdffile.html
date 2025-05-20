@@ -1,202 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book PDF Reader</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* Additional inline styles if needed */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background-color: #f5f5f5;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book PDF Display</title>
+  <style>
+    /* Main Container */
+    .book-container {
+      font-family: Arial, sans-serif;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 10px;
+    }
+
+    /* Static Box (Non-Sliding) */
+    .static-box {
+      width: 60%;
+      height: 96px; /* 1 inch ≈ 96px */
+      border: 1px solid lightgreen;
+      border-radius: 5px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    /* Header with Admin Background */
+    .box-header {
+      height: 20%;
+      background-image: url('https://via.placeholder.com/800x100?text=Book+Logo');
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      text-shadow: 1px 1px 3px black;
+    }
+
+    /* Clickable Bars (5 bars) */
+    .clickable-bar {
+      height: 16%;
+      display: flex;
+      align-items: center;
+      padding-left: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+      border-bottom: 1px dashed #e0e0e0;
+    }
+
+    .clickable-bar:hover {
+      background: rgba(144, 238, 144, 0.3);
+    }
+
+    /* Sliding Books Container */
+    .sliding-books {
+      display: flex;
+      gap: 15px;
+      overflow-x: auto;
+      padding: 10px 0;
+      scrollbar-width: none; /* Hide scrollbar for Firefox */
+    }
+
+    .sliding-books::-webkit-scrollbar {
+      display: none; /* Hide scrollbar for Chrome/Safari */
+    }
+
+    /* Individual Book Box (Sliding) */
+    .book-box {
+      min-width: 40%;
+      height: 96px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s;
+      position: relative;
+      background: white;
+    }
+
+    .book-box:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Golden Border Animation */
+    @keyframes goldenGlow {
+      0% { box-shadow: 0 0 0 0 gold; }
+      100% { box-shadow: 0 0 10px 5px rgba(255, 215, 0, 0); }
+    }
+
+    .golden-border {
+      animation: goldenGlow 1.5s ease-in-out;
+    }
+
+    /* Book Name (Below Box) */
+    .book-name {
+      text-align: center;
+      margin-top: 5px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-    <div class="book-slider-container">
-        <!-- Top Navigation Box -->
-        <div class="top-box">
-            <div class="top-box-header">Book PDF Read</div>
-            <div class="category-bars">
-                <div class="category-bar" style="animation-delay: 0s;">
-                    <span class="category-icon">📚</span>
-                    Book
-                </div>
-                <div class="category-bar" style="animation-delay: 0.1s;">
-                    <span class="category-icon">👨</span>
-                    Men Book
-                </div>
-                <div class="category-bar" style="animation-delay: 0.2s;">
-                    <span class="category-icon">🎓</span>
-                    Student Book
-                </div>
-                <div class="category-bar" style="animation-delay: 0.3s;">
-                    <span class="category-icon">👩</span>
-                    Women Book
-                </div>
-                <div class="category-bar" style="animation-delay: 0.4s;">
-                    <span class="category-icon">🧒</span>
-                    Kids Book
-                </div>
-            </div>
-        </div>
-        
-        <!-- Book Slider -->
-        <div class="book-slider" id="bookSlider">
-            <!-- Placeholder books will be added by JavaScript -->
-            <div class="book-placeholder"></div>
-            <div class="book-placeholder"></div>
-        </div>
+  <div class="book-container">
+    <!-- Static Box -->
+    <div class="static-box">
+      <div class="box-header">Book PDF Read</div>
+      <div class="clickable-bar" onclick="navigate('men')">Men Book</div>
+      <div class="clickable-bar" onclick="navigate('student')">Student Book</div>
+      <div class="clickable-bar" onclick="navigate('women')">Women Book</div>
+      <div class="clickable-bar" onclick="navigate('kids')">Kids Book</div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const bookSlider = document.getElementById('bookSlider');
-            const categories = [
-                { name: 'Book', icon: '📚', id: 'all' },
-                { name: 'Men Book', icon: '👨', id: 'men' },
-                { name: 'Student Book', icon: '🎓', id: 'student' },
-                { name: 'Women Book', icon: '👩', id: 'women' },
-                { name: 'Kids Book', icon: '🧒', id: 'kids' }
-            ];
+    <!-- Sliding Books -->
+    <div class="sliding-books">
+      <!-- First Book (Fixed) -->
+      <div class="book-box golden-border" onclick="openBook('book1')">
+        Book 1
+      </div>
+      <div class="book-name">Our First Book</div>
 
-            // Sample book data
-            const books = [
-                { id: 1, title: 'Advanced React Patterns', category: 'all' },
-                { id: 2, title: 'Men\'s Health Guide', category: 'men' },
-                { id: 3, title: 'College Mathematics', category: 'student' },
-                { id: 4, title: 'Women in Tech', category: 'women' },
-                { id: 5, title: 'Children\'s Stories', category: 'kids' },
-                { id: 6, title: 'JavaScript Fundamentals', category: 'all' }
-            ];
+      <!-- Dynamic Books (Add more as needed) -->
+      <div class="book-box" onclick="openBook('book2')">
+        Book 2
+      </div>
+      <div class="book-name">Student Guide</div>
 
-            // Initialize book slider
-            function initBookSlider() {
-                // Clear placeholders if we have real books
-                if (books.length > 0) {
-                    bookSlider.innerHTML = '';
-                }
+      <div class="book-box" onclick="openBook('book3')">
+        Book 3
+      </div>
+      <div class="book-name">Women's World</div>
 
-                // Add books to slider
-                books.forEach(book => {
-                    const category = categories.find(c => c.id === book.category) || categories[0];
-                    const bookCard = document.createElement('div');
-                    bookCard.className = 'book-card';
-                    bookCard.innerHTML = `
-                        <div class="book-image">${category.icon}</div>
-                        <div class="book-title">${book.title}</div>
-                    `;
-                    bookCard.addEventListener('click', function() {
-                        handleBookClick(book);
-                    });
-                    bookSlider.appendChild(bookCard);
-                });
-            }
+      <div class="book-box" onclick="openBook('book4')">
+        Book 4
+      </div>
+      <div class="book-name">Kids Fun</div>
+    </div>
+  </div>
 
-            // Handle book click
-            function handleBookClick(book) {
-                // Add active class for animation
-                const activeCards = document.querySelectorAll('.book-card.active');
-                activeCards.forEach(card => card.classList.remove('active'));
-                
-                const clickedCard = event.currentTarget;
-                clickedCard.classList.add('active');
-                
-                // Remove active class after animation
-                setTimeout(() => {
-                    clickedCard.classList.remove('active');
-                }, 2000);
-                
-                // In a real app, you would navigate to the book detail page
-                console.log('Opening book:', book.title);
-                // window.location.href = `/books/${book.id}`;
-            }
+  <script>
+    // Golden border animation on load/refresh
+    document.addEventListener('DOMContentLoaded', () => {
+      const firstBook = document.querySelector('.book-box');
+      firstBook.classList.add('golden-border');
+    });
 
-            // Setup category click handlers
-            function setupCategoryHandlers() {
-                const categoryBars = document.querySelectorAll('.category-bar');
-                categoryBars.forEach((bar, index) => {
-                    bar.addEventListener('click', function() {
-                        const category = categories[index];
-                        console.log('Category selected:', category.name);
-                        // In a real app, you would filter books by category
-                    });
-                });
-            }
+    // Navigation functions
+    function navigate(section) {
+      alert(`Redirecting to ${section} section...`);
+      // window.location.href = `/${section}.html`; // Uncomment for actual redirection
+    }
 
-            // Setup drag functionality
-            function setupDrag() {
-                let isDragging = false;
-                let startX = 0;
-                let scrollLeft = 0;
-
-                bookSlider.addEventListener('mousedown', (e) => {
-                    isDragging = true;
-                    startX = e.pageX - bookSlider.offsetLeft;
-                    scrollLeft = bookSlider.scrollLeft;
-                    bookSlider.style.cursor = 'grabbing';
-                });
-
-                bookSlider.addEventListener('mouseleave', () => {
-                    isDragging = false;
-                    bookSlider.style.cursor = 'grab';
-                });
-
-                bookSlider.addEventListener('mouseup', () => {
-                    isDragging = false;
-                    bookSlider.style.cursor = 'grab';
-                });
-
-                bookSlider.addEventListener('mousemove', (e) => {
-                    if (!isDragging) return;
-                    e.preventDefault();
-                    const x = e.pageX - bookSlider.offsetLeft;
-                    const walk = (x - startX) * 2;
-                    bookSlider.scrollLeft = scrollLeft - walk;
-                });
-
-                // Touch events for mobile
-                bookSlider.addEventListener('touchstart', (e) => {
-                    isDragging = true;
-                    startX = e.touches[0].pageX - bookSlider.offsetLeft;
-                    scrollLeft = bookSlider.scrollLeft;
-                });
-
-                bookSlider.addEventListener('touchmove', (e) => {
-                    if (!isDragging) return;
-                    const x = e.touches[0].pageX - bookSlider.offsetLeft;
-                    const walk = (x - startX) * 2;
-                    bookSlider.scrollLeft = scrollLeft - walk;
-                });
-
-                bookSlider.addEventListener('touchend', () => {
-                    isDragging = false;
-                });
-            }
-
-            // Auto-slide functionality
-            function setupAutoSlide() {
-                if (books.length <= 2) return;
-
-                setInterval(() => {
-                    const maxScroll = bookSlider.scrollWidth - bookSlider.clientWidth;
-                    if (bookSlider.scrollLeft >= maxScroll - 10) {
-                        bookSlider.scrollTo({ left: 0, behavior: 'smooth' });
-                    } else {
-                        bookSlider.scrollBy({ left: 100, behavior: 'smooth' });
-                    }
-                }, 3000);
-            }
-
-            // Initialize everything
-            initBookSlider();
-            setupCategoryHandlers();
-            setupDrag();
-            setupAutoSlide();
-        });
-    </script>
+    function openBook(bookId) {
+      alert(`Opening ${bookId}...`);
+      // window.location.href = `/books/${bookId}.pdf`; // Uncomment for actual PDF opening
+    }
+  </script>
 </body>
-  </html>
+</html>
