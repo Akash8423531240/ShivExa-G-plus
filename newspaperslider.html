@@ -5,56 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Newspaper</title>
     <style>
-        /* CSS Styles */
         body {
             margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
-            touch-action: pan-y;
             background-color: #f5f5f5;
         }
         
         .newspaper-container {
             display: flex;
             width: 100%;
-            gap: 10px;
+            gap: 1px; /* बॉक्स के बीच सिर्फ 1px गैप */
             padding: 5px;
             box-sizing: border-box;
+            margin-bottom: 0; /* नीचे कोई मार्जिन नहीं */
         }
         
         .news-box {
-            width: 50%;
-            height: 96px; /* 1 inch */
+            flex: 1;
+            height: 96px;
             overflow: hidden;
             position: relative;
-            border: 3px solid; /* मोटा बॉर्डर */
+            border: 3px solid;
             border-radius: 4px;
             background: white;
             box-shadow: 2px 2px 5px rgba(0,0,0,0.3),
-                      -2px -2px 5px rgba(255,255,255,0.8); /* 3D उभरा हुआ इफेक्ट */
-            display: inline-block; /* एक ही लाइन में रहेंगे */
+                      -2px -2px 5px rgba(255,255,255,0.8);
+            margin-bottom: 0; /* नीचे कोई मार्जिन नहीं */
         }
         
         #boxA {
-            border-color: #9370DB; /* पर्पल बॉर्डर */
+            border-color: #9370DB;
         }
         
         #boxB {
-            border-color: #87CEEB; /* स्काई ब्लू बॉर्डर */
+            border-color: #87CEEB;
         }
         
         .news-box h3 {
             margin: 0;
-            padding: 5px;
+            padding: 4px 8px;
             background: #333;
             color: white;
             font-size: 14px;
             text-align: center;
+            line-height: 1.2; /* टेक्स्ट को कंप्रेस करने के लिए */
         }
         
         .slider {
             display: flex;
-            width: 300%; /* 3 items */
-            height: calc(96px - 28px);
+            width: 300%;
+            height: calc(96px - 28px); /* हेडिंग की हाइट कम कर दी */
             touch-action: pan-y;
         }
         
@@ -62,149 +63,34 @@
             width: 33.33%;
             height: 100%;
             object-fit: cover;
-            cursor: pointer;
-            user-select: none;
-        }
-        
-        /* FULLSCREEN MODAL */
-        #fullscreenView {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: white;
-            z-index: 1000;
-            overflow: hidden;
-        }
-        
-        .fullscreen-content {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-        
-        .fullscreen-img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-        
-        .close-fullscreen {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 24px;
-            cursor: pointer;
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* Overlay to close when clicking outside */
-        .overlay-close {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 999;
         }
     </style>
 </head>
 <body>
     <!-- Newspaper Boxes -->
     <div class="newspaper-container">
-        <!-- BOX A (Left) -->
         <div class="news-box" id="boxA">
             <h3>Daily Newspapers</h3>
             <div class="slider" id="sliderA">
-                <img src="news1.jpg" onclick="openFullscreen(1)" alt="News 1">
-                <img src="news2.jpg" onclick="openFullscreen(2)" alt="News 2">
-                <img src="news3.jpg" onclick="openFullscreen(3)" alt="News 3">
+                <img src="news1.jpg" alt="News 1">
+                <img src="news2.jpg" alt="News 2">
+                <img src="news3.jpg" alt="News 3">
             </div>
         </div>
 
-        <!-- BOX B (Right) -->
         <div class="news-box" id="boxB">
             <h3>Regional Newspapers</h3>
             <div class="slider" id="sliderB">
-                <img src="news4.jpg" onclick="openFullscreen(4)" alt="News 4">
-                <img src="news5.jpg" onclick="openFullscreen(5)" alt="News 5">
-                <img src="news6.jpg" onclick="openFullscreen(6)" alt="News 6">
+                <img src="news4.jpg" alt="News 4">
+                <img src="news5.jpg" alt="News 5">
+                <img src="news6.jpg" alt="News 6">
             </div>
         </div>
     </div>
 
-    <!-- FULLSCREEN MODAL -->
-    <div id="fullscreenView">
-        <div class="overlay-close" onclick="closeFullscreen()"></div>
-        <div class="fullscreen-content">
-            <button class="close-fullscreen" onclick="closeFullscreen()">×</button>
-            <img class="fullscreen-img" id="fullscreenImage" src="" alt="Fullscreen News">
-        </div>
+    <!-- यहाँ आपका अगला कंटेंट आएगा -->
+    <div style="background: #eee; padding: 10px; margin-top: 0;">
+        यह आपका अगला आइटम है जो अब ऊपर ही दिखेगा
     </div>
-
-    <script>
-        // Newspaper data
-        const newspapers = {
-            1: { name: "The Daily Times", pages: 15 },
-            2: { name: "City Express", pages: 15 },
-            3: { name: "National Herald", pages: 15 },
-            4: { name: "Regional Post", pages: 15 },
-            5: { name: "Metro News", pages: 15 },
-            6: { name: "State Chronicle", pages: 15 }
-        };
-
-        // Open fullscreen with selected news
-        function openFullscreen(newsId) {
-            const fullscreen = document.getElementById('fullscreenView');
-            const img = document.getElementById('fullscreenImage');
-            
-            // Load first page of selected newspaper
-            img.src = `newspaper${newsId}_page1.jpg`;
-            img.alt = `${newspapers[newsId].name} - Page 1`;
-            
-            fullscreen.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            
-            // Prevent scrolling underneath
-            document.addEventListener('scroll', preventScroll, { passive: false });
-        }
-        
-        function closeFullscreen() {
-            document.getElementById('fullscreenView').style.display = 'none';
-            document.body.style.overflow = 'auto';
-            document.removeEventListener('scroll', preventScroll);
-        }
-        
-        function preventScroll(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        }
-        
-        // Close when clicking outside image
-        document.getElementById('fullscreenView').addEventListener('click', function(e) {
-            if (e.target === this || e.target.classList.contains('overlay-close')) {
-                closeFullscreen();
-            }
-        });
-        
-        // Close with ESC key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === "Escape") {
-                closeFullscreen();
-            }
-        });
-    </script>
 </body>
-                    </html>
+</html>
