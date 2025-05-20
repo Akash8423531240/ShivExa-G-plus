@@ -12,7 +12,7 @@
         
         .container {
             display: flex;
-            height: 2in; /* 2 inches height */
+            height: 1.5in; /* 1.5 inches height */
             gap: 10px;
             margin-bottom: 20px;
         }
@@ -39,6 +39,7 @@
             padding: 0 5px;
             font-size: 12px;
             border-radius: 3px;
+            z-index: 1;
         }
         
         .box-a-button {
@@ -73,11 +74,17 @@
             flex-direction: column;
         }
         
-        .box-b-header {
-            background-color: navy;
+        .box-b::before {
+            content: "LAUNCH PAD";
+            position: absolute;
+            top: -15px;
+            left: 10px;
+            background: navy;
             color: white;
-            text-align: center;
-            padding: 5px;
+            padding: 0 5px;
+            font-size: 12px;
+            border-radius: 3px;
+            z-index: 1;
             font-weight: bold;
         }
         
@@ -99,6 +106,7 @@
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
+            cursor: pointer;
         }
         
         /* Arrow navigation for Box B */
@@ -172,34 +180,51 @@
         
         <!-- Box B (Fixed Right) -->
         <div class="box-b">
-            <div class="box-b-header">Lounchpad</div>
             <div class="box-b-content">
                 <div class="sliding-images" id="slider">
-                    <div class="slide" style="background-image: url('https://via.placeholder.com/400x200?text=Product+1');"></div>
-                    <div class="slide" style="background-image: url('https://via.placeholder.com/400x200?text=Product+2');"></div>
-                    <div class="slide" style="background-image: url('https://via.placeholder.com/400x200?text=Product+3');"></div>
+                    <!-- 20 Products (You can add more) -->
+                    <div class="slide" style="background-image: url('https://via.placeholder.com/400x200?text=Product+1');" onclick="navigate('product1')"></div>
+                    <div class="slide" style="background-image: url('https://via.placeholder.com/400x200?text=Product+2');" onclick="navigate('product2')"></div>
+                    <div class="slide" style="background-image: url('https://via.placeholder.com/400x200?text=Product+3');" onclick="navigate('product3')"></div>
+                    <div class="slide" style="background-image: url('https://via.placeholder.com/400x200?text=Product+4');" onclick="navigate('product4')"></div>
+                    <div class="slide" style="background-image: url('https://via.placeholder.com/400x200?text=Product+5');" onclick="navigate('product5')"></div>
+                    <div class="slide" style="background-image: url('https://via.placeholder.com/400x200?text=Product+6');" onclick="navigate('product6')"></div>
+                    <div class="slide" style="background-image: url('https://via.placeholder.com/400x200?text=Product+7');" onclick="navigate('product7')"></div>
+                    <div class="slide" style="background-image: url('https://via.placeholder.com/400x200?text=Product+8');" onclick="navigate('product8')"></div>
+                    <div class="slide" style="background-image: url('https://via.placeholder.com/400x200?text=Product+9');" onclick="navigate('product9')"></div>
+                    <div class="slide" style="background-image: url('https://via.placeholder.com/400x200?text=Product+10');" onclick="navigate('product10')"></div>
+                    <!-- Add more products as needed -->
                 </div>
                 <div class="nav-arrow prev" onclick="moveSlide(-1)">❮</div>
                 <div class="nav-arrow next" onclick="moveSlide(1)">❯</div>
                 <div class="indicator" id="indicator">
-                    <div class="dot active" onclick="goToSlide(0)"></div>
-                    <div class="dot" onclick="goToSlide(1)"></div>
-                    <div class="dot" onclick="goToSlide(2)"></div>
+                    <!-- Dots will be added dynamically by JavaScript -->
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Navigation function for Box A buttons
+        // Navigation function for all clickable items
         function navigate(page) {
-            alert(`Opening ${page} page...`);
-            // window.location.href = `/${page}.html`;
+            // Replace with actual navigation
+            alert(`Opening ${page} page...`); 
+            // window.open(`/${page}.html`, '_blank');
         }
         
         // Slider functionality for Box B
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
+        const indicator = document.getElementById('indicator');
+        
+        // Create dots for each slide
+        slides.forEach((slide, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            dot.onclick = () => goToSlide(index);
+            indicator.appendChild(dot);
+        });
+        
         const dots = document.querySelectorAll('.dot');
         
         function showSlide(n) {
@@ -224,10 +249,13 @@
             showSlide(n);
         }
         
+        // Initialize first slide
+        dots[0]?.classList.add('active');
+        
         // Auto slide change every 3 seconds
         setInterval(() => {
             moveSlide(1);
         }, 3000);
     </script>
 </body>
-  </html>
+    </html>
