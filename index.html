@@ -14,7 +14,7 @@
     body {
       display: flex;
       flex-direction: column;
-      gap: 4px; /* This creates perfect 4px spacing between all direct children */
+      gap: 4px;
     }
 
     * {
@@ -26,11 +26,12 @@
       width: 100%;
       border: none;
     }
-    
-    #top-header-slot, #next-section-slot {
+
+    #top-header-slot,
+    #next-section-slot {
       min-height: 0;
     }
-    
+
     h1 {
       text-align: center;
       margin: 0;
@@ -45,16 +46,17 @@
   <!-- Breaking-news placeholder -->
   <div id="next-section-slot"></div>
 
-  <!-- Newspaper Slider with 4px gap -->
-  <iframe src="/NewspaperSlider.html" height="200"></iframe>
+  <!-- Newspaper Slider -->
+  <iframe src="./NewspaperSlider.html" height="200"></iframe>
 
-  <!-- Book PDF with 4px gap -->
-  <iframe src="bookpdffile.html" height="600"></iframe>
+  <!-- Book PDF -->
+  <iframe src="./bookpdffile.html" height="600"></iframe>
 
   <h1>ShivExa Global Plus — Coming Soon</h1>
 
-  <!-- JS modules -->
-  <script type="module" src="/TopHeader.js"></script>
-  <script type="module" src="/BreakingNewsBar.js"></script>
+  <!-- JavaScript Modules -->
+  <script type="module" src="./TopHeader.js"></script>
+  <script type="module" src="./BreakingNewsBar.js"></script>
+
 </body>
 </html>
