@@ -11,36 +11,46 @@
       font-family: Arial, sans-serif;
     }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     iframe {
       display: block;
       width: 100%;
       border: none;
+      margin: 0 !important;
+      padding: 0 !important;
     }
     
     #top-header-slot, #next-section-slot {
-      min-height: 20px; /* prevents collapse if empty */
+      min-height: 0;
+      margin: 0;
+      padding: 0;
     }
     
     h1 {
       text-align: center;
-      padding: 20px 0;
+      padding: 0;
       margin: 0;
     }
   </style>
 </head>
-<body>
+<body style="margin: 0; padding: 0;">
 
   <!-- Top-header placeholder -->
-  <div id="top-header-slot"></div>
+  <div id="top-header-slot" style="margin: 0; padding: 0;"></div>
 
   <!-- Breaking-news placeholder -->
-  <div id="next-section-slot"></div>
+  <div id="next-section-slot" style="margin: 0; padding: 0;"></div>
 
-  <!-- Newspaper Slider -->
-  <iframe src="/NewspaperSlider.html" height="200"></iframe>
+  <!-- Newspaper Slider with no gap -->
+  <iframe src="/NewspaperSlider.html" height="200" style="margin: 0; padding: 0;"></iframe>
 
-  <!-- Book PDF -->
-  <iframe src="bookpdffile.html" height="600"></iframe>
+  <!-- Book PDF with no gap -->
+  <iframe src="bookpdffile.html" height="600" style="margin: 0; padding: 0;"></iframe>
 
   <h1>ShivExa Global Plus — Coming Soon</h1>
 
