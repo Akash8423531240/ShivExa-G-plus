@@ -5,311 +5,319 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Newspaper</title>
     <style>
-        /* Main Styles */
+        /* CSS Styles */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f3f3f3;
+            touch-action: pan-y;
         }
         
-        /* Header Style */
-        .header {
-            background-color: #232f3e;
-            color: white;
-            padding: 15px;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            border-bottom: 2px solid #ff9900;
-        }
-        
-        /* Newspaper Container */
         .newspaper-container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            padding: 15px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        /* Newspaper Box */
-        .newspaper-box {
-            width: 300px;
-            height: 400px;
-            background-color: white;
-            border: 2px solid #ff0000;
-            border-radius: 5px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        
-        .newspaper-box:hover {
-            transform: translateY(-5px);
-        }
-        
-        .newspaper-box::before {
-            content: "NEWS PAPER";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            background-color: #ff0000;
-            color: white;
-            text-align: center;
-            padding: 5px;
-            font-weight: bold;
-        }
-        
-        .newspaper-image {
             width: 100%;
+            gap: 10px;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+        
+        .news-box {
+            width: 50%;
+            height: 96px; /* ~1 inch */
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .news-box h3 {
+            margin: 0;
+            padding: 5px;
+            background: #333;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .slider {
+            display: flex;
+            width: 300%; /* 3 items */
+            height: calc(96px - 28px);
+            touch-action: pan-y;
+        }
+        
+        .slider img {
+            width: 33.33%;
             height: 100%;
             object-fit: cover;
+            cursor: pointer;
+            user-select: none;
         }
         
-        /* Fullscreen View */
-        .fullscreen {
+        /* Animation for sliding (3 seconds) */
+        #boxA .slider {
+            animation: slideA 9s infinite; /* 3 papers × 3s each */
+        }
+        
+        #boxB .slider {
+            animation: slideB 9s infinite;
+        }
+        
+        @keyframes slideA {
+            0%, 33% { transform: translateX(0); }
+            33.33%, 66% { transform: translateX(-33.33%); }
+            66.66%, 100% { transform: translateX(-66.66%); }
+        }
+        
+        @keyframes slideB {
+            0%, 33% { transform: translateX(0); }
+            33.33%, 66% { transform: translateX(-33.33%); }
+            66.66%, 100% { transform: translateX(-66.66%); }
+        }
+        
+        /* FULLSCREEN MODAL (Updated for Swipe) */
+        #fullscreenView {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.9);
-            z-index: 1000;
+            background: white;
+            z-index: 100;
             overflow: hidden;
         }
         
-        .fullscreen-container {
+        .fullscreen-slider {
             display: flex;
             width: 100%;
             height: 100%;
-            transition: transform 0.5s ease;
+            transition: transform 0.3s ease;
         }
         
-        .newspaper-page {
-            min-width: 100%;
+        .news-page {
+            width: 100%;
             height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-shrink: 0;
+            position: relative;
         }
         
-        .page-image {
-            max-width: 90%;
-            max-height: 90%;
+        .news-page img {
+            width: 100%;
+            height: 100%;
             object-fit: contain;
-            border: 2px solid #ff0000;
+            pointer-events: none;
         }
         
-        .page-number {
+        .page-indicator {
             position: absolute;
             bottom: 20px;
             left: 0;
             right: 0;
             text-align: center;
             color: white;
-            font-size: 18px;
+            background: rgba(0,0,0,0.5);
+            padding: 5px;
+            margin: 0 auto;
+            width: fit-content;
+            border-radius: 10px;
         }
         
         .close-btn {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #ff0000;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
             color: white;
             border: none;
-            width: 40px;
-            height: 40px;
             border-radius: 50%;
-            font-size: 20px;
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
             cursor: pointer;
-            z-index: 1001;
+            z-index: 101;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        DAILY NEWSPAPERS
-    </div>
-    
-    <!-- Newspaper Grid -->
+    <!-- Newspaper Boxes -->
     <div class="newspaper-container">
-        <!-- 6 Newspaper Boxes -->
-        <div class="newspaper-box" onclick="openFullscreen(1)">
-            <img src="news1.jpg" class="newspaper-image" alt="Newspaper 1">
+        <!-- BOX A (Left) -->
+        <div class="news-box" id="boxA">
+            <h3>Daily Newspapers</h3>
+            <div class="slider" id="sliderA">
+                <img src="news1.jpg" onclick="openFullscreen(1)" alt="News 1">
+                <img src="news2.jpg" onclick="openFullscreen(2)" alt="News 2">
+                <img src="news3.jpg" onclick="openFullscreen(3)" alt="News 3">
+            </div>
         </div>
-        <div class="newspaper-box" onclick="openFullscreen(2)">
-            <img src="news2.jpg" class="newspaper-image" alt="Newspaper 2">
-        </div>
-        <div class="newspaper-box" onclick="openFullscreen(3)">
-            <img src="news3.jpg" class="newspaper-image" alt="Newspaper 3">
-        </div>
-        <div class="newspaper-box" onclick="openFullscreen(4)">
-            <img src="news4.jpg" class="newspaper-image" alt="Newspaper 4">
-        </div>
-        <div class="newspaper-box" onclick="openFullscreen(5)">
-            <img src="news5.jpg" class="newspaper-image" alt="Newspaper 5">
-        </div>
-        <div class="newspaper-box" onclick="openFullscreen(6)">
-            <img src="news6.jpg" class="newspaper-image" alt="Newspaper 6">
+
+        <!-- BOX B (Right) -->
+        <div class="news-box" id="boxB">
+            <h3>Regional Newspapers</h3>
+            <div class="slider" id="sliderB">
+                <img src="news4.jpg" onclick="openFullscreen(4)" alt="News 4">
+                <img src="news5.jpg" onclick="openFullscreen(5)" alt="News 5">
+                <img src="news6.jpg" onclick="openFullscreen(6)" alt="News 6">
+            </div>
         </div>
     </div>
-    
-    <!-- Fullscreen View -->
-    <div class="fullscreen" id="fullscreenView">
+
+    <!-- FULLSCREEN MODAL (Updated for Swipe) -->
+    <div id="fullscreenView">
         <button class="close-btn" onclick="closeFullscreen()">×</button>
-        <div class="fullscreen-container" id="fullscreenContainer">
-            <!-- Pages will be added dynamically -->
-        </div>
+        <div class="fullscreen-slider" id="fullscreenSlider"></div>
     </div>
-    
+
     <script>
-        // Current newspaper and page
-        let currentNewspaper = 0;
+        // Newspaper data
+        const newspapers = {
+            1: { name: "The Daily Times" },
+            2: { name: "City Express" },
+            3: { name: "National Herald" },
+            4: { name: "Regional Post" },
+            5: { name: "Metro News" },
+            6: { name: "State Chronicle" }
+        };
+
+        // Touch/Swipe variables
+        let touchStartX = 0;
+        let touchEndX = 0;
         let currentPage = 0;
-        let slideInterval;
-        
-        // Open fullscreen view
-        function openFullscreen(newspaperId) {
-            currentNewspaper = newspaperId;
+        const totalPages = 15;
+
+        // Open fullscreen with swipeable pages
+        function openFullscreen(newsId) {
+            const fullscreen = document.getElementById('fullscreenView');
+            const slider = document.getElementById('fullscreenSlider');
+            
+            slider.innerHTML = '';
             currentPage = 0;
             
-            const fullscreen = document.getElementById('fullscreenView');
-            const container = document.getElementById('fullscreenContainer');
-            
-            // Clear previous pages
-            container.innerHTML = '';
-            
             // Add 15 pages
-            for (let i = 1; i <= 15; i++) {
+            for (let i = 1; i <= totalPages; i++) {
                 const pageDiv = document.createElement('div');
-                pageDiv.className = 'newspaper-page';
+                pageDiv.className = 'news-page';
                 
                 const img = document.createElement('img');
-                img.src = `news${newspaperId}_page${i}.jpg`;
-                img.alt = `Newspaper ${newspaperId} - Page ${i}`;
-                img.className = 'page-image';
+                img.src = `newspaper${newsId}_page${i}.jpg`; // Replace with actual images
+                img.alt = `${newspapers[newsId].name} - Page ${i}`;
                 
-                const pageNum = document.createElement('div');
-                pageNum.className = 'page-number';
-                pageNum.textContent = `Page ${i} of 15`;
+                const indicator = document.createElement('div');
+                indicator.className = 'page-indicator';
+                indicator.textContent = `${newspapers[newsId].name} - Page ${i}/${totalPages}`;
                 
                 pageDiv.appendChild(img);
-                pageDiv.appendChild(pageNum);
-                container.appendChild(pageDiv);
+                pageDiv.appendChild(indicator);
+                slider.appendChild(pageDiv);
             }
             
-            // Show fullscreen
             fullscreen.style.display = 'block';
             document.body.style.overflow = 'hidden';
-            
-            // Start auto-sliding
-            startAutoSlide();
-            
-            // Add touch/swipe events
-            setupSwipe();
+            updateSliderPosition();
         }
         
-        // Close fullscreen view
         function closeFullscreen() {
             document.getElementById('fullscreenView').style.display = 'none';
             document.body.style.overflow = 'auto';
-            clearInterval(slideInterval);
         }
         
-        // Auto-slide every 3 seconds
-        function startAutoSlide() {
-            const container = document.getElementById('fullscreenContainer');
-            const pageCount = 15;
-            let page = 0;
-            
-            slideInterval = setInterval(() => {
-                page = (page + 1) % pageCount;
-                container.style.transform = `translateX(-${page * 100}%)`;
-                currentPage = page;
-            }, 3000);
-        }
-        
-        // Handle swipe gestures
-        function setupSwipe() {
-            const container = document.getElementById('fullscreenContainer');
-            let startX = 0;
-            let isDragging = false;
-            
-            container.addEventListener('touchstart', (e) => {
-                startX = e.touches[0].clientX;
-                isDragging = true;
-                clearInterval(slideInterval);
-            });
-            
-            container.addEventListener('touchmove', (e) => {
-                if (!isDragging) return;
-                e.preventDefault();
-            });
-            
-            container.addEventListener('touchend', (e) => {
-                if (!isDragging) return;
-                isDragging = false;
-                
-                const endX = e.changedTouches[0].clientX;
-                const diff = startX - endX;
-                
-                // Swipe right (previous page)
-                if (diff < -50 && currentPage > 0) {
-                    currentPage--;
-                }
-                // Swipe left (next page)
-                else if (diff > 50 && currentPage < 14) {
-                    currentPage++;
-                }
-                
-                container.style.transform = `translateX(-${currentPage * 100}%)`;
-                startAutoSlide();
-            });
-            
-            // Mouse events for desktop
-            container.addEventListener('mousedown', (e) => {
-                startX = e.clientX;
-                isDragging = true;
-                clearInterval(slideInterval);
-            });
-            
-            container.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-                e.preventDefault();
-            });
-            
-            container.addEventListener('mouseup', (e) => {
-                if (!isDragging) return;
-                isDragging = false;
-                
-                const endX = e.clientX;
-                const diff = startX - endX;
-                
-                if (diff < -50 && currentPage > 0) {
-                    currentPage--;
-                }
-                else if (diff > 50 && currentPage < 14) {
-                    currentPage++;
-                }
-                
-                container.style.transform = `translateX(-${currentPage * 100}%)`;
-                startAutoSlide();
-            });
-        }
-        
-        // Close on back button
-        window.addEventListener('popstate', function() {
-            if (document.getElementById('fullscreenView').style.display === 'block') {
-                closeFullscreen();
-            }
+        // Handle swipe for fullscreen
+        document.getElementById('fullscreenSlider').addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
         });
+        
+        document.getElementById('fullscreenSlider').addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            const threshold = 50;
+            
+            if (touchStartX - touchEndX > threshold && currentPage < totalPages - 1) {
+                // Swipe left (next page)
+                currentPage++;
+            } else if (touchEndX - touchStartX > threshold && currentPage > 0) {
+                // Swipe right (previous page)
+                currentPage--;
+            }
+            
+            updateSliderPosition();
+        }
+        
+        function updateSliderPosition() {
+            const slider = document.getElementById('fullscreenSlider');
+            slider.style.transform = `translateX(-${currentPage * 100}%)`;
+        }
+        
+        // Manual sliding for boxes
+        function setupManualSliding(sliderId) {
+            const slider = document.getElementById(sliderId);
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+            
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+                slider.style.cursor = 'grabbing';
+                slider.style.animationPlayState = 'paused';
+            });
+            
+            slider.addEventListener('mouseleave', () => {
+                isDown = false;
+                slider.style.cursor = 'pointer';
+                slider.style.animationPlayState = 'running';
+            });
+            
+            slider.addEventListener('mouseup', () => {
+                isDown = false;
+                slider.style.cursor = 'pointer';
+                slider.style.animationPlayState = 'running';
+            });
+            
+            slider.addEventListener('mousemove', (e) => {
+                if(!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2;
+                slider.scrollLeft = scrollLeft - walk;
+            });
+            
+            // Touch events for mobile
+            slider.addEventListener('touchstart', (e) => {
+                isDown = true;
+                startX = e.touches[0].pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+                slider.style.animationPlayState = 'paused';
+            });
+            
+            slider.addEventListener('touchend', () => {
+                isDown = false;
+                slider.style.animationPlayState = 'running';
+            });
+            
+            slider.addEventListener('touchmove', (e) => {
+                if(!isDown) return;
+                const x = e.touches[0].pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2;
+                slider.scrollLeft = scrollLeft - walk;
+            });
+        }
+        
+        // Initialize
+        window.onload = function() {
+            setupManualSliding('sliderA');
+            setupManualSliding('sliderB');
+            
+            // Back button handler
+            window.addEventListener('popstate', function() {
+                if(document.getElementById('fullscreenView').style.display === 'block') {
+                    closeFullscreen();
+                }
+            });
+        };
     </script>
 </body>
     </html>
