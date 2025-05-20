@@ -54,36 +54,59 @@
     }
 
     /* Sliding Books Container */
-    .sliding-books {
+    .sliding-books-container {
       display: flex;
-      gap: 15px;
       overflow-x: auto;
-      padding: 10px 0;
       scrollbar-width: none; /* Hide scrollbar for Firefox */
+      gap: 15px;
+      padding: 10px 0;
+      align-items: flex-start; /* Align boxes and names together */
     }
 
-    .sliding-books::-webkit-scrollbar {
+    .sliding-books-container::-webkit-scrollbar {
       display: none; /* Hide scrollbar for Chrome/Safari */
     }
 
-    /* Individual Book Box (Sliding) */
+    /* Book Box + Name Wrapper (to keep box and name aligned) */
+    .book-wrapper {
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    /* Individual Book Box */
     .book-box {
-      min-width: 40%;
+      width: 150px; /* Fixed width for all boxes */
       height: 96px;
       border: 1px solid #ddd;
       border-radius: 5px;
-      flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       transition: transform 0.3s;
-      position: relative;
       background: white;
+    }
+
+    /* First Book Box (Fixed) */
+    .book-box:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 1;
+      background: #f9f9f9;
     }
 
     .book-box:hover {
       transform: translateY(-5px);
+    }
+
+    /* Book Name (Below Box) */
+    .book-name {
+      text-align: center;
+      margin-top: 5px;
+      font-size: 12px;
+      font-weight: bold;
+      white-space: nowrap; /* Prevent text wrapping */
     }
 
     /* Golden Border Animation */
@@ -94,14 +117,6 @@
 
     .golden-border {
       animation: goldenGlow 1.5s ease-in-out;
-    }
-
-    /* Book Name (Below Box) */
-    .book-name {
-      text-align: center;
-      margin-top: 5px;
-      font-size: 12px;
-      font-weight: bold;
     }
   </style>
 </head>
@@ -116,29 +131,38 @@
       <div class="clickable-bar" onclick="navigate('kids')">Kids Book</div>
     </div>
 
-    <!-- Sliding Books -->
-    <div class="sliding-books">
-      <!-- First Book (Fixed) -->
-      <div class="book-box golden-border" onclick="openBook('book1')">
-        Book 1
+    <!-- Sliding Books Container -->
+    <div class="sliding-books-container">
+      <!-- Book 1 (Fixed) -->
+      <div class="book-wrapper">
+        <div class="book-box golden-border" onclick="openBook('book1')">
+          Book 1
+        </div>
+        <div class="book-name">Our First Book</div>
       </div>
-      <div class="book-name">Our First Book</div>
 
-      <!-- Dynamic Books (Add more as needed) -->
-      <div class="book-box" onclick="openBook('book2')">
-        Book 2
+      <!-- Book 2 (Scrollable) -->
+      <div class="book-wrapper">
+        <div class="book-box" onclick="openBook('book2')">
+          Book 2
+        </div>
+        <div class="book-name">ShivExa Global Plus — Coming Soon</div>
       </div>
-      <div class="book-name">Student Guide</div>
 
-      <div class="book-box" onclick="openBook('book3')">
-        Book 3
+      <!-- Add more books as needed -->
+      <div class="book-wrapper">
+        <div class="book-box" onclick="openBook('book3')">
+          Book 3
+        </div>
+        <div class="book-name">Women's World</div>
       </div>
-      <div class="book-name">Women's World</div>
 
-      <div class="book-box" onclick="openBook('book4')">
-        Book 4
+      <div class="book-wrapper">
+        <div class="book-box" onclick="openBook('book4')">
+          Book 4
+        </div>
+        <div class="book-name">Kids Fun</div>
       </div>
-      <div class="book-name">Kids Fun</div>
     </div>
   </div>
 
@@ -149,7 +173,6 @@
       firstBook.classList.add('golden-border');
     });
 
-    // Navigation functions
     function navigate(section) {
       alert(`Redirecting to ${section} section...`);
       // window.location.href = `/${section}.html`; // Uncomment for actual redirection
