@@ -14,7 +14,7 @@
         .container {
             display: flex;
             width: 100%;
-            gap: 4px; /* Only 2px gap between boxes */
+            gap: 4px; /* Only 4px gap between boxes */
         }
         .box {
             width: 50%;
@@ -35,13 +35,13 @@
             z-index: 2;
         }
         .box-a {
-            border-color: #87CEEB;
-            animation: glow-blue 2s infinite alternate;
+            border-color: #4c6300;
+            animation: glow-blue 1s infinite alternate;
             background: linear-gradient(to bottom, #e6f7ff, #b3e0ff);
         }
         .box-b {
             border-color: #800080;
-            animation: glow-purple 2s infinite alternate;
+            animation: glow-purple 1s infinite alternate;
             background: linear-gradient(to bottom, #f9e6ff, #e6b3ff);
         }
         .box-label {
@@ -79,10 +79,10 @@
         }
         @keyframes glow-purple {
             from {
-                box-shadow: 0 0 5px #800080, 0 4px 8px rgba(0,0,0,0.3);
+                box-shadow: 0 0 5px #800080, 0 3px 8px rgba(0,0,0,0.3);
             }
             to {
-                box-shadow: 0 0 20px #800080, 0 6px 12px rgba(0,0,0,0.4);
+                box-shadow: 0 0 5px #800080, 0 3px 8px rgba(0,0,0,0.4);
             }
         }
     </style>
