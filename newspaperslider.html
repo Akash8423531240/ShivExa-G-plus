@@ -14,7 +14,7 @@
         .container {
             display: flex;
             width: 100%;
-            gap: 0;
+            gap: 2px; /* Only 2px gap between boxes */
         }
         .box {
             width: 50%;
@@ -25,16 +25,24 @@
             border-width: 14px 6px 6px 6px;
             border-style: solid;
             box-sizing: border-box;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             cursor: pointer;
+            /* 3D Raised Effect for Both Boxes */
+            transform: perspective(500px) rotateX(5deg);
+            transition: transform 0.3s ease;
+        }
+        .box:hover {
+            transform: perspective(500px) rotateX(8deg) translateY(-2px);
+            z-index: 2;
         }
         .box-a {
             border-color: #87CEEB;
             animation: glow-blue 2s infinite alternate;
+            background: linear-gradient(to bottom, #e6f7ff, #b3e0ff);
         }
         .box-b {
             border-color: #800080;
             animation: glow-purple 2s infinite alternate;
+            background: linear-gradient(to bottom, #f9e6ff, #e6b3ff);
         }
         .box-label {
             position: absolute;
@@ -45,6 +53,7 @@
             font-size: 12px;
             background-color: inherit;
             padding: 2px 0;
+            z-index: 1;
         }
         .slider {
             display: flex;
@@ -58,22 +67,22 @@
             align-items: center;
             justify-content: center;
             font-size: 16px;
-            background-color: white;
+            background-color: rgba(255,255,255,0.8);
         }
         @keyframes glow-blue {
             from {
-                box-shadow: 0 0 5px #87CEEB;
+                box-shadow: 0 0 5px #87CEEB, 0 4px 8px rgba(0,0,0,0.3);
             }
             to {
-                box-shadow: 0 0 20px #87CEEB;
+                box-shadow: 0 0 20px #87CEEB, 0 6px 12px rgba(0,0,0,0.4);
             }
         }
         @keyframes glow-purple {
             from {
-                box-shadow: 0 0 5px #800080;
+                box-shadow: 0 0 5px #800080, 0 4px 8px rgba(0,0,0,0.3);
             }
             to {
-                box-shadow: 0 0 20px #800080;
+                box-shadow: 0 0 20px #800080, 0 6px 12px rgba(0,0,0,0.4);
             }
         }
     </style>
@@ -105,12 +114,16 @@
             let currentSlide = 0;
             const slides = slider.children;
             const totalSlides = slides.length;
+            let interval;
             
-            // Auto-rotate every 4 seconds
-            const interval = setInterval(() => {
-                currentSlide = (currentSlide + 1) % totalSlides;
-                slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-            }, 4000);
+            function startInterval() {
+                interval = setInterval(() => {
+                    currentSlide = (currentSlide + 1) % totalSlides;
+                    slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+                }, 4000);
+            }
+            
+            startInterval();
             
             // Manual slide on click
             slider.parentElement.addEventListener('click', (e) => {
@@ -126,10 +139,7 @@
             });
             
             slider.parentElement.addEventListener('mouseleave', () => {
-                return setInterval(() => {
-                    currentSlide = (currentSlide + 1) % totalSlides;
-                    slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-                }, 4000);
+                startInterval();
             });
         }
         
