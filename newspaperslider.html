@@ -1,6 +1,263 @@
-ho // Initialize both sliders
-        setupSlider('sliderA');
-        setupSlider('sliderB');
+<!DOCTYPE html>
+<html>
+<head>
+    <title>News Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            display: flex;
+            height: 1in; /* 1 inch height */
+            gap: 10px;
+            margin-left: 2px; /* Left margin 2px */
+            margin-right: 2px; /* Right margin 2px */
+        }
+        
+        /* Box A (Left) */
+        .box-a {
+            width: 50%; /* Equal width */
+            height: 100%;
+            border: 3px solid darkgreen;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .box-a::before {
+            content: "NEWS 1";
+            position: absolute;
+            top: -12px;
+            left: 10px;
+            background: darkgreen;
+            color: white;
+            padding: 0 5px;
+            font-size: 12px;
+            border-radius: 3px;
+            z-index: 1;
+        }
+        
+        .box-a-content {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Box B (Right) */
+        .box-b {
+            width: 50%; /* Equal width */
+            height: 100%;
+            border: 4px solid navy;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .box-b::before {
+            content: "NEWS 2";
+            position: absolute;
+            top: -15px;
+            left: 10px;
+            background: navy;
+            color: white;
+            padding: 0 5px;
+            font-size: 12px;
+            border-radius: 3px;
+            z-index: 1;
+            font-weight: bold;
+        }
+        
+        .box-b-content {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Common slider styles for both boxes */
+        .sliding-news {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+        
+        .news-item {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            padding: 0 15px;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        /* Arrow navigation */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            border-radius: 50%;
+        }
+        
+        .prev {
+            left: 5px;
+        }
+        
+        .next {
+            right: 5px;
+        }
+        
+        /* Dot indicator */
+        .indicator {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin: 0 3px;
+            cursor: pointer;
+        }
+        
+        .dot.active {
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Box A (Left) -->
+        <div class="box-a">
+            <div class="box-a-content">
+                <div class="sliding-news" id="slider-a">
+                    <!-- 3 News Items -->
+                    <div class="news-item" onclick="navigate('news1')">Breaking News: Important announcement from the government</div>
+                    <div class="news-item" onclick="navigate('news2')">Sports Update: National team wins championship</div>
+                    <div class="news-item" onclick="navigate('news3')">Weather Alert: Storm warning issued for coastal areas</div>
+                </div>
+                <div class="nav-arrow prev" onclick="moveSlide('a', -1)">❮</div>
+                <div class="nav-arrow next" onclick="moveSlide('a', 1)">❯</div>
+                <div class="indicator" id="indicator-a">
+                    <!-- Dots will be added dynamically by JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Box B (Right) -->
+        <div class="box-b">
+            <div class="box-b-content">
+                <div class="sliding-news" id="slider-b">
+                    <!-- 3 News Items -->
+                    <div class="news-item" onclick="navigate('news4')">Technology: New smartphone launched with advanced features</div>
+                    <div class="news-item" onclick="navigate('news5')">Health: Study reveals benefits of regular exercise</div>
+                    <div class="news-item" onclick="navigate('news6')">Entertainment: Popular movie breaks box office records</div>
+                </div>
+                <div class="nav-arrow prev" onclick="moveSlide('b', -1)">❮</div>
+                <div class="nav-arrow next" onclick="moveSlide('b', 1)">❯</div>
+                <div class="indicator" id="indicator-b">
+                    <!-- Dots will be added dynamically by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation function
+        function navigate(page) {
+            alert(`Opening ${page}...`); 
+            // window.open(`/${page}.html`, '_blank');
+        }
+        
+        // Initialize sliders for both boxes
+        const sliders = {
+            a: {
+                currentSlide: 0,
+                element: document.getElementById('slider-a'),
+                indicator: document.getElementById('indicator-a'),
+                dots: []
+            },
+            b: {
+                currentSlide: 0,
+                element: document.getElementById('slider-b'),
+                indicator: document.getElementById('indicator-b'),
+                dots: []
+            }
+        };
+        
+        // Initialize both sliders
+        Object.keys(sliders).forEach(box => {
+            const slides = document.querySelectorAll(`#slider-${box} .news-item`);
+            
+            // Create dots for each slide
+            slides.forEach((slide, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                dot.onclick = () => goToSlide(box, index);
+                sliders[box].indicator.appendChild(dot);
+                sliders[box].dots.push(dot);
+            });
+            
+            // Initialize first slide
+            if (sliders[box].dots[0]) {
+                sliders[box].dots[0].classList.add('active');
+            }
+            
+            // Auto slide change every 3 seconds
+            setInterval(() => {
+                moveSlide(box, 1);
+            }, 3000);
+        });
+        
+        function showSlide(box, n) {
+            const slider = sliders[box];
+            slider.element.style.transform = `translateX(-${n * 100}%)`;
+            
+            slider.dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === n);
+            });
+            
+            slider.currentSlide = n;
+        }
+        
+        function moveSlide(box, n) {
+            const slider = sliders[box];
+            const slides = document.querySelectorAll(`#slider-${box} .news-item`).length;
+            
+            slider.currentSlide += n;
+            if (slider.currentSlide >= slides) slider.currentSlide = 0;
+            if (slider.currentSlide < 0) slider.currentSlide = slides - 1;
+            showSlide(box, slider.currentSlide);
+        }
+        
+        function goToSlide(box, n) {
+            showSlide(box, n);
+        }
     </script>
 </body>
-    </html>
+</html>
