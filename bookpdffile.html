@@ -1,107 +1,233 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Display</title>
-  <style>
-    /* Main Container */
-    .book-container {
-      font-family: Arial, sans-serif;
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 10px;
-      display: flex;
-      gap: 15px;
-    }
-
-    /* Static Boxes (Men/Student + Launch Book) */
-    .static-box {
-      width: 30%;
-      height: 96px;
-      border: 1px solid lightgreen;
-      border-radius: 5px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    /* Launch Book Box (with scrolling content) */
-    .launch-box {
-      width: 30%;
-      height: 96px;
-      border: 1px solid #ffcc00;
-      border-radius: 5px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .scrolling-books {
-      display: flex;
-      animation: scroll 15s linear infinite;
-      width: max-content;
-    }
-
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-
-    /* Clickable Bars */
-    .clickable-bar, .book-item {
-      height: 20%;
-      padding: 8px 10px;
-      cursor: pointer;
-      border-bottom: 1px dashed #e0e0e0;
-      transition: all 0.3s;
-    }
-
-    .clickable-bar:hover, .book-item:hover {
-      background: rgba(144, 238, 144, 0.3);
-      box-shadow: 0 0 10px gold;
-    }
-
-    /* Box Headers */
-    .box-header {
-      height: 20%;
-      background: linear-gradient(90deg, #4b6cb7, #182848);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-    }
-  </style>
+    <title>Book Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            display: flex;
+            height: 2in; /* 2 inches height */
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        /* Box A (Fixed Left) */
+        .box-a {
+            width: 60%;
+            height: 100%;
+            border: 3px solid darkgreen;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .box-a::before {
+            content: "P BOOK READ";
+            position: absolute;
+            top: -12px;
+            left: 10px;
+            background: darkgreen;
+            color: white;
+            padding: 0 5px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        
+        .box-a-button {
+            height: 20%;
+            display: flex;
+            align-items: center;
+            padding-left: 15px;
+            cursor: pointer;
+            background-size: cover;
+            background-position: center;
+            color: black;
+            font-weight: bold;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s;
+        }
+        
+        .box-a-button:hover {
+            background-color: rgba(0,100,0,0.1);
+        }
+        
+        /* Box B (Fixed Right) */
+        .box-b {
+            width: 40%;
+            height: 100%;
+            border: 4px solid navy;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .box-b-header {
+            background-color: navy;
+            color: white;
+            text-align: center;
+            padding: 5px;
+            font-weight: bold;
+        }
+        
+        .box-b-content {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sliding-images {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+        
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        /* Arrow navigation for Box B */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            border-radius: 50%;
+        }
+        
+        .prev {
+            left: 5px;
+        }
+        
+        .next {
+            right: 5px;
+        }
+        
+        /* Blue dot indicator */
+        .indicator {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin: 0 3px;
+            cursor: pointer;
+        }
+        
+        .dot.active {
+            background-color: blue;
+        }
+    </style>
 </head>
 <body>
-  <div class="book-container">
-    <!-- First Static Box -->
-    <div class="static-box">
-      <div class="box-header">Book Categories</div>
-      <div class="clickable-bar" onclick="openPage('men')">Men Book</div>
-      <div class="clickable-bar" onclick="openPage('student')">Student Book</div>
-      <div class="clickable-bar" onclick="openPage('women')">Women Book</div>
-      <div class="clickable-bar" onclick="openPage('kids')">Kids Book</div>
+    <div class="container">
+        <!-- Box A (Fixed Left) -->
+        <div class="box-a">
+            <div class="box-a-button" style="background-image: url('https://via.placeholder.com/300x100?text=BOOK+BG');" onclick="navigate('book')">
+                BOOK
+            </div>
+            <div class="box-a-button" style="background-image: url('https://via.placeholder.com/300x100?text=STUDENT+BG');" onclick="navigate('student')">
+                STUDENT BOOK
+            </div>
+            <div class="box-a-button" style="background-image: url('https://via.placeholder.com/300x100?text=MEN+BG');" onclick="navigate('men')">
+                MEN BOOK
+            </div>
+            <div class="box-a-button" style="background-image: url('https://via.placeholder.com/300x100?text=WOMEN+BG');" onclick="navigate('women')">
+                WOMEN BOOK
+            </div>
+            <div class="box-a-button" style="background-image: url('https://via.placeholder.com/300x100?text=KIDS+BG');" onclick="navigate('kids')">
+                KID'S BOOK
+            </div>
+        </div>
+        
+        <!-- Box B (Fixed Right) -->
+        <div class="box-b">
+            <div class="box-b-header">Lounchpad</div>
+            <div class="box-b-content">
+                <div class="sliding-images" id="slider">
+                    <div class="slide" style="background-image: url('https://via.placeholder.com/400x200?text=Product+1');"></div>
+                    <div class="slide" style="background-image: url('https://via.placeholder.com/400x200?text=Product+2');"></div>
+                    <div class="slide" style="background-image: url('https://via.placeholder.com/400x200?text=Product+3');"></div>
+                </div>
+                <div class="nav-arrow prev" onclick="moveSlide(-1)">❮</div>
+                <div class="nav-arrow next" onclick="moveSlide(1)">❯</div>
+                <div class="indicator" id="indicator">
+                    <div class="dot active" onclick="goToSlide(0)"></div>
+                    <div class="dot" onclick="goToSlide(1)"></div>
+                    <div class="dot" onclick="goToSlide(2)"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Launch Book Box (with auto-scrolling) -->
-    <div class="launch-box">
-      <div class="box-header" style="background: linear-gradient(90deg, #ff416c, #ff4b2b)">Launch Books</div>
-      <div class="scrolling-books">
-        <div class="book-item" onclick="openPage('book1')">New Release 1</div>
-        <div class="book-item" onclick="openPage('book2')">Bestseller</div>
-        <div class="book-item" onclick="openPage('book3')">Limited Edition</div>
-        <div class="book-item" onclick="openPage('book4')">Coming Soon</div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function openPage(page) {
-      // Replace with actual page navigation
-      alert(`Opening ${page} page...`); 
-      // window.open(`/${page}.html`, '_blank');
-    }
-  </script>
+    <script>
+        // Navigation function for Box A buttons
+        function navigate(page) {
+            alert(`Opening ${page} page...`);
+            // window.location.href = `/${page}.html`;
+        }
+        
+        // Slider functionality for Box B
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        
+        function showSlide(n) {
+            const slider = document.getElementById('slider');
+            slider.style.transform = `translateX(-${n * 100}%)`;
+            
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === n);
+            });
+            
+            currentSlide = n;
+        }
+        
+        function moveSlide(n) {
+            currentSlide += n;
+            if (currentSlide >= slides.length) currentSlide = 0;
+            if (currentSlide < 0) currentSlide = slides.length - 1;
+            showSlide(currentSlide);
+        }
+        
+        function goToSlide(n) {
+            showSlide(n);
+        }
+        
+        // Auto slide change every 3 seconds
+        setInterval(() => {
+            moveSlide(1);
+        }, 3000);
+    </script>
 </body>
-</html>
+  </html>
