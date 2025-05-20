@@ -21,7 +21,7 @@
         
         .news-box {
             width: 50%;
-            height: 96px; /* Approximately 1 inch */
+            height: 96px; /* ~1 inch */
             overflow: hidden;
             position: relative;
             border: 1px solid #ddd;
@@ -40,10 +40,10 @@
         .slider {
             display: flex;
             width: 300%; /* 3 items */
-            height: calc(96px - 28px); /* Adjust for heading */
+            height: calc(96px - 28px);
         }
         
-        .slider img { /* Note: Typo in class name to match your HTML */
+        .slider img {
             width: 33.33%;
             height: 100%;
             object-fit: cover;
@@ -71,7 +71,7 @@
             66.66%, 100% { transform: translateX(-66.66%); }
         }
         
-        /* FULLSCREEN MODAL */
+        /* FULLSCREEN MODAL (Updated) */
         #fullscreenView {
             display: none;
             position: fixed;
@@ -81,22 +81,35 @@
             height: 100%;
             background: white;
             z-index: 100;
-            overflow-y: scroll;
+            overflow-y: scroll; /* Enable vertical scrolling */
+            scroll-snap-type: y mandatory; /* Snap scrolling */
         }
         
-        .news-content {
-            padding: 20px;
-        }
-        
-        .news-content img {
+        .news-page {
             width: 100%;
-            margin-bottom: 10px;
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+        }
+        
+        .news-page img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .page-number {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <!-- Your existing header and breaking news here -->
-    
     <!-- Newspaper Boxes -->
     <div class="newspaper-container">
         <!-- BOX A (Left) -->
@@ -120,30 +133,47 @@
         </div>
     </div>
 
-    <!-- FULLSCREEN MODAL -->
+    <!-- FULLSCREEN MODAL (Updated for 15 Pages) -->
     <div id="fullscreenView" onclick="closeFullscreen()">
-        <div class="news-content">
-            <!-- This will be populated dynamically -->
-            <h2 id="fullscreenTitle">Newspaper Title</h2>
-            <!-- Example pages - in real app these would come from database -->
-            <img src="page1.jpg" alt="Page 1">
-            <img src="page2.jpg" alt="Page 2">
-            <img src="page3.jpg" alt="Page 3">
-            <!-- ... up to 15 pages -->
-        </div>
+        <!-- Pages will be added dynamically by JavaScript -->
     </div>
 
     <script>
-        // JavaScript functionality
+        // Newspaper data (replace with your actual data)
+        const newspapers = {
+            1: { name: "The Daily Times", pages: 15 },
+            2: { name: "City Express", pages: 15 },
+            3: { name: "National Herald", pages: 15 },
+            4: { name: "Regional Post", pages: 15 },
+            5: { name: "Metro News", pages: 15 },
+            6: { name: "State Chronicle", pages: 15 }
+        };
+
+        // Open fullscreen with scrollable pages
         function openFullscreen(newsId) {
             const fullscreen = document.getElementById('fullscreenView');
-            // In real app, you would fetch the newspaper content here
-            // For demo, we just show the modal
-            document.getElementById('fullscreenTitle').textContent = 
-                `Newspaper ${newsId} - Page 1 of 15`;
-            fullscreen.style.display = 'block';
+            fullscreen.innerHTML = ''; // Clear previous content
             
-            // Prevent body scrolling when fullscreen is open
+            // Add 15 pages to the fullscreen view
+            for (let i = 1; i <= 15; i++) {
+                const pageDiv = document.createElement('div');
+                pageDiv.className = 'news-page';
+                
+                const img = document.createElement('img');
+                // In real app: img.src = `newspaper${newsId}_page${i}.jpg`;
+                img.src = `placeholder_news${newsId}_page${i}.jpg`; // Replace with actual images
+                img.alt = `Page ${i}`;
+                
+                const pageNum = document.createElement('div');
+                pageNum.className = 'page-number';
+                pageNum.textContent = `Page ${i} of 15`;
+                
+                pageDiv.appendChild(img);
+                pageDiv.appendChild(pageNum);
+                fullscreen.appendChild(pageDiv);
+            }
+            
+            fullscreen.style.display = 'block';
             document.body.style.overflow = 'hidden';
         }
         
@@ -152,7 +182,7 @@
             document.body.style.overflow = 'auto';
         }
         
-        // Auto-advance sliders (alternative approach)
+        // Auto-advance sliders
         function rotateSliders() {
             const sliders = document.querySelectorAll('.slider');
             
@@ -172,10 +202,10 @@
             setTimeout(rotateSliders, 6000);
         }
         
-        // Start the slider rotation after page loads
+        // Start the slider rotation
         window.onload = function() {
             setTimeout(rotateSliders, 2000);
         };
     </script>
 </body>
-</html>
+    </html>
