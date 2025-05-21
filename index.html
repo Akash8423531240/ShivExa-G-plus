@@ -4,42 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ShivExa Global Plus</title>
+  <!-- External CSS Link -->
+  <link rel="stylesheet" href="./style.css">
+  <!-- Inline Styles (for critical/overrides only) -->
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    iframe {
-      display: block;
-      width: 100%;
-      border: none;
-    }
-
-    #top-header-slot,
-    #next-section-slot {
-      min-height: 0;
-    }
-
-    h1 {
-      text-align: center;
-      margin: 0;
+    /* Critical overrides (if any) */
+    #top-header-slot, #next-section-slot {
+      min-height: 0; /* Ensures slots collapse if empty */
     }
   </style>
 </head>
 <body>
-
   <!-- Top-header placeholder -->
   <div id="top-header-slot"></div>
 
@@ -47,19 +22,18 @@
   <div id="next-section-slot"></div>
 
   <!-- Newspaper Slider -->
-  <iframe src="./NewspaperSlider.html" height="200"></iframe>
+  <iframe src="./NewspaperSlider.html" title="Newspaper Slider"></iframe>
 
-  <!-- Book Box Slide (ऊपर ले आया हूँ) -->
-  <iframe src="./bookboxslide.html" height="300"></iframe>
+  <!-- Book Box Slide -->
+  <iframe src="./bookboxslide.html" title="Book Box Slide"></iframe>
 
   <!-- Book PDF -->
-  <iframe src="./bookpdffile.html" height="600"></iframe>
+  <iframe src="./bookpdffile.html" title="Book PDF Viewer"></iframe>
 
   <h1>ShivExa Global Plus — Coming Soon</h1>
 
   <!-- JavaScript Modules -->
   <script type="module" src="./TopHeader.js"></script>
   <script type="module" src="./BreakingNewsBar.js"></script>
-
 </body>
-</html>
+  </html>
