@@ -1,92 +1,74 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>लॉन्चपैड सिस्टम</title>
+    <title>Launchpad</title>
     <style>
-        /* मुख्य कंटेनर */
-        .launchpad-admin {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        body {
+            margin: 0;
+            padding: 0;
         }
         
-        /* अपलोड सेक्शन */
-        .upload-section {
-            border: 2px dashed #ccc;
-            padding: 30px;
-            text-align: center;
-            margin-bottom: 30px;
-            background: #f9f9f9;
-        }
-        
-        /* प्रिव्यू सेक्शन */
-        .preview-section {
-            display: none;
-            margin-top: 30px;
-        }
-        
-        /* लॉन्चपैड स्टाइल */
         .launchpad-container {
-            position: relative;
             width: 100%;
-            margin: 20px 0;
+            position: relative;
         }
         
         .launchpad-box {
-            border: 1px solid #9400D3;
-            border-radius: 5px;
-            height: 96px; /* 1 इंच */
             width: 100%;
+            height: 96px; /* 1 inch = 96px */
+            border: 2px solid #800080; /* Dark purple 2px border */
+            border-radius: 2px; /* Slightly rounded corners */
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            background-color: white;
+            box-sizing: border-box;
+        }
+        
+        .launchpad-slider {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .launchpad-slide {
+            min-width: 100%;
+            height: 100%;
+        }
+        
+        .launchpad-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         .launchpad-label {
             position: absolute;
             top: 0;
             left: 0;
-            background-color: #000080;
-            color: white;
-            font-weight: bold;
-            font-size: 8px;
+            background-color: #000080; /* Navy blue */
             height: 10px;
-            line-height: 10px;
-            padding: 0 5px;
-            border-bottom-right-radius: 3px;
-            z-index: 10;
-        }
-        
-        .launchpad-slider {
-            display: flex;
-            height: 100%;
-            transition: transform 0.5s ease;
-        }
-        
-        .launchpad-item {
-            flex: 0 0 100%;
-            height: 100%;
+            padding: 2px 5px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
+            z-index: 2;
         }
         
-        .launchpad-item img {
-            max-height: 100%;
-            max-width: 100%;
-            object-fit: contain;
+        .launchpad-label span {
+            color: black;
+            font-weight: bold;
+            font-size: 8px;
+            white-space: nowrap;
         }
         
         .launchpad-dots {
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            right: 0;
             display: flex;
             justify-content: center;
-            margin-top: 5px;
             gap: 2px;
         }
         
@@ -94,242 +76,76 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background-color: lightgray;
+            background-color: #ccc;
             cursor: pointer;
         }
         
         .launchpad-dot.active {
-            background-color: #9400D3;
-        }
-        
-        /* बटन स्टाइल */
-        .upload-btn {
-            background: #9400D3;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 5px;
-        }
-        
-        .upload-btn:hover {
-            background: #7A00C2;
+            background-color: #800080;
         }
     </style>
 </head>
 <body>
-    <div class="launchpad-admin">
-        <h1>लॉन्चपैड मैनेजर</h1>
-        
-        <!-- इमेज अपलोड सेक्शन -->
-        <div class="upload-section">
-            <h2>प्रोडक्ट इमेजेज अपलोड करें</h2>
-            <input type="file" id="imageUpload" multiple accept="image/*" style="display: none;">
-            <button class="upload-btn" onclick="document.getElementById('imageUpload').click()">इमेज चुनें</button>
-            <div id="fileInfo" style="margin-top: 10px;"></div>
-            <button class="upload-btn" id="generateBtn" style="display: none; margin-top: 15px;">लॉन्चपैड जनरेट करें</button>
-        </div>
-        
-        <!-- लॉन्चपैड प्रिव्यू -->
-        <div class="preview-section" id="previewSection">
-            <h2>लॉन्चपैड प्रिव्यू</h2>
-            <div class="launchpad-container">
-                <div class="launchpad-box">
-                    <div class="launchpad-label">LAUNCHPAD</div>
-                    <div class="launchpad-slider" id="launchpadSlider"></div>
-                </div>
-                <div class="launchpad-dots" id="launchpadDots"></div>
+    <div class="launchpad-container">
+        <div class="launchpad-box">
+            <div class="launchpad-label">
+                <span>LAUNCHPAD</span>
             </div>
-            <div style="margin-top: 20px;">
-                <h3>इस्तेमाल करने के लिए कोड:</h3>
-                <textarea id="launchpadCode" rows="4" style="width: 100%; padding: 10px;"></textarea>
-                <button class="upload-btn" onclick="copyCode()">कोड कॉपी करें</button>
+            
+            <div class="launchpad-slider">
+                <!-- Slides will be added by admin -->
+                <div class="launchpad-slide">
+                    <a href="#"><img src="product1.jpg" alt="Product"></a>
+                </div>
+                <div class="launchpad-slide">
+                    <a href="#"><img src="product2.jpg" alt="Product"></a>
+                </div>
+            </div>
+            
+            <div class="launchpad-dots">
+                <div class="launchpad-dot active"></div>
+                <div class="launchpad-dot"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // ग्लोबल वेरिएबल
-        let uploadedImages = [];
+        // Auto-sliding functionality
+        let currentSlide = 0;
+        const slider = document.querySelector('.launchpad-slider');
+        const dots = document.querySelectorAll('.launchpad-dot');
+        const slides = document.querySelectorAll('.launchpad-slide');
+        const totalSlides = slides.length;
         
-        // इमेज अपलोड हैंडलर
-        document.getElementById('imageUpload').addEventListener('change', function(e) {
-            const files = e.target.files;
-            if (files.length > 0) {
-                document.getElementById('fileInfo').textContent = `${files.length} इमेज चुनी गई`;
-                document.getElementById('generateBtn').style.display = 'inline-block';
-                
-                // प्रिव्यू के लिए इमेजेज सेव करें
-                uploadedImages = Array.from(files).map(file => URL.createObjectURL(file));
-            }
-        });
-        
-        // लॉन्चपैड जनरेट करें
-        document.getElementById('generateBtn').addEventListener('click', function() {
-            if (uploadedImages.length === 0) {
-                alert('कृपया कम से कम एक इमेज चुनें');
-                return;
-            }
+        function goToSlide(n) {
+            currentSlide = (n + totalSlides) % totalSlides;
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
             
-            const slider = document.getElementById('launchpadSlider');
-            const dotsContainer = document.getElementById('launchpadDots');
-            
-            // स्लाइडर कंटेंट जनरेट
-            slider.innerHTML = '';
-            slider.style.width = `${uploadedImages.length * 100}%`;
-            
-            uploadedImages.forEach((img, index) => {
-                const item = document.createElement('div');
-                item.className = 'launchpad-item';
-                item.innerHTML = `<img src="${img}" alt="प्रोडक्ट ${index + 1}">`;
-                slider.appendChild(item);
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
             });
-            
-            // डॉट्स जनरेट
-            dotsContainer.innerHTML = '';
-            for (let i = 0; i < uploadedImages.length; i++) {
-                const dot = document.createElement('div');
-                dot.className = 'launchpad-dot' + (i === 0 ? ' active' : '');
-                dotsContainer.appendChild(dot);
-            }
-            
-            // ऑटो स्लाइडिंग
-            let currentIndex = 0;
-            setInterval(() => {
-                currentIndex = (currentIndex + 1) % uploadedImages.length;
-                slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-                
-                // एक्टिव डॉट अपडेट
-                document.querySelectorAll('.launchpad-dot').forEach((dot, i) => {
-                    dot.classList.toggle('active', i === currentIndex);
-                });
-            }, 5000);
-            
-            // कोड जनरेट
-            generateCode();
-            
-            // प्रिव्यू दिखाएं
-            document.getElementById('previewSection').style.display = 'block';
+        }
+        
+        function nextSlide() {
+            goToSlide(currentSlide + 1);
+        }
+        
+        // Auto slide every 5 seconds
+        setInterval(nextSlide, 5000);
+        
+        // Click on dots to go to specific slide
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                goToSlide(index);
+            });
         });
         
-        // HTML कोड जनरेट
-        function generateCode() {
-            const code = `<div class="launchpad-container">
-    <div class="launchpad-box">
-        <div class="launchpad-label">LAUNCHPAD</div>
-        <div class="launchpad-slider" style="width: ${uploadedImages.length * 100}%">
-            ${uploadedImages.map((img, index) => `
-            <div class="launchpad-item">
-                <img src="${img}" alt="प्रोडक्ट ${index + 1}">
-            </div>`).join('')}
-        </div>
-    </div>
-    <div class="launchpad-dots">
-        ${Array(uploadedImages.length).fill('<div class="launchpad-dot"></div>').join('')}
-    </div>
-</div>
-
-<style>
-.launchpad-container {
-    position: relative;
-    width: 100%;
-    margin: 20px 0;
-}
-
-.launchpad-box {
-    border: 1px solid #9400D3;
-    border-radius: 5px;
-    height: 96px;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    background-color: white;
-}
-
-.launchpad-label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #000080;
-    color: white;
-    font-weight: bold;
-    font-size: 8px;
-    height: 10px;
-    line-height: 10px;
-    padding: 0 5px;
-    border-bottom-right-radius: 3px;
-    z-index: 10;
-}
-
-.launchpad-slider {
-    display: flex;
-    height: 100%;
-    transition: transform 0.5s ease;
-}
-
-.launchpad-item {
-    flex: 0 0 ${100/uploadedImages.length}%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-}
-
-.launchpad-item img {
-    max-height: 100%;
-    max-width: 100%;
-    object-fit: contain;
-}
-
-.launchpad-dots {
-    display: flex;
-    justify-content: center;
-    margin-top: 5px;
-    gap: 2px;
-}
-
-.launchpad-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: lightgray;
-    cursor: pointer;
-}
-
-.launchpad-dot.active {
-    background-color: #9400D3;
-}
-</style>
-
-<script>
-// ऑटो स्लाइडिंग
-let currentIndex = 0;
-const slider = document.querySelector('.launchpad-slider');
-const dots = document.querySelectorAll('.launchpad-dot');
-
-setInterval(() => {
-    currentIndex = (currentIndex + 1) % ${uploadedImages.length};
-    slider.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
-    
-    dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === currentIndex);
-    });
-}, 5000);
-</script>`;
-
-            document.getElementById('launchpadCode').value = code;
-        }
-        
-        // कोड कॉपी करें
-        function copyCode() {
-            const codeTextarea = document.getElementById('launchpadCode');
-            codeTextarea.select();
-            document.execCommand('copy');
-            alert('कोड कॉपी हो गया! अब आप इसे अपनी वेबसाइट पर पेस्ट कर सकते हैं');
-        }
+        // Click on slide to go to product page
+        slides.forEach(slide => {
+            slide.addEventListener('click', () => {
+                window.location.href = slide.querySelector('a').href;
+            });
+        });
     </script>
 </body>
 </html>
