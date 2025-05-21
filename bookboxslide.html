@@ -3,11 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Display System</title>
+    <title>Book Slider System</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
             padding: 20px;
             background-color: #f5f5f5;
         }
@@ -17,39 +22,33 @@
             margin: 0 auto;
         }
         
+        .book-row {
+            display: flex;
+            gap: 8px; /* बॉक्स के बीच 8px गैप */
+            margin-bottom: 8px; /* पंक्तियों के बीच 8px गैप */
+            overflow: hidden;
+        }
+        
         .book-box {
-            width: calc(50% - 10px);
-            height: 0.5in; /* 1/2 inch height */
-            margin-bottom: 20px;
+            width: 40%; /* चौड़ाई 40% */
+            height: 96px; /* 1 इंच (96px) ऊंचाई */
+            min-width: 40%; /* स्लाइड करते समय चौड़ाई बनाए रखने के लिए */
             border: 1px solid #ddd;
             border-radius: 4px;
             background-color: white;
-            overflow: hidden;
-            position: relative;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: inline-block;
-        }
-        
-        .book-slider {
-            display: flex;
-            height: 100%;
-            transition: transform 0.5s ease;
-        }
-        
-        .book-item {
-            min-width: 100%;
-            height: 100%;
             display: flex;
             align-items: center;
-            padding: 0 10px;
-            box-sizing: border-box;
+            justify-content: center;
+            padding: 10px;
             cursor: pointer;
             position: relative;
+            flex-shrink: 0; /* सिकुड़ने से रोकने के लिए */
         }
         
         .book-name {
             position: absolute;
-            bottom: -20px;
+            bottom: 5px;
             left: 0;
             width: 100%;
             text-align: center;
@@ -57,132 +56,135 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            padding: 0 5px;
         }
         
-        .slider-left {
-            float: left;
-            margin-right: 20px;
+        .slider-wrapper {
+            display: flex;
+            width: 100%;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
         }
         
-        .slider-right {
-            float: right;
-        }
-        
-        @media (max-width: 768px) {
-            .book-box {
-                width: 100%;
-                margin-bottom: 30px;
-            }
+        .slider-wrapper::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
         }
     </style>
 </head>
 <body>
     <div class="book-container">
-        <!-- Left sliding box (right to left) -->
-        <div class="book-box slider-left">
-            <div class="book-slider" id="slider1">
-                <!-- Book items will be added dynamically from seller data -->
-                <div class="book-item" onclick="openBookPage('book1')">
-                    <div>Book Content 1</div>
-                    <div class="book-name">Book Name 1</div>
+        <!-- पहली पंक्ति (3 बॉक्स) -->
+        <div class="book-row">
+            <div class="slider-wrapper" id="row1">
+                <!-- बॉक्स यहाँ जोड़े जाएंगे -->
+                <div class="book-box" onclick="openBook('book1')">
+                    <div>Book 1 Content</div>
+                    <div class="book-name">Book 1 Name</div>
                 </div>
-                <div class="book-item" onclick="openBookPage('book2')">
-                    <div>Book Content 2</div>
-                    <div class="book-name">Book Name 2</div>
+                <div class="book-box" onclick="openBook('book2')">
+                    <div>Book 2 Content</div>
+                    <div class="book-name">Book 2 Name</div>
                 </div>
-                <div class="book-item" onclick="openBookPage('book3')">
-                    <div>Book Content 3</div>
-                    <div class="book-name">Book Name 3</div>
+                <div class="book-box" onclick="openBook('book3')">
+                    <div>Book 3 Content</div>
+                    <div class="book-name">Book 3 Name</div>
                 </div>
             </div>
         </div>
         
-        <!-- Right sliding box (left to right) -->
-        <div class="book-box slider-right">
-            <div class="book-slider" id="slider2">
-                <!-- Book items will be added dynamically from seller data -->
-                <div class="book-item" onclick="openBookPage('book4')">
-                    <div>Book Content 4</div>
-                    <div class="book-name">Book Name 4</div>
+        <!-- दूसरी पंक्ति (3 बॉक्स) -->
+        <div class="book-row">
+            <div class="slider-wrapper" id="row2">
+                <!-- बॉक्स यहाँ जोड़े जाएंगे -->
+                <div class="book-box" onclick="openBook('book4')">
+                    <div>Book 4 Content</div>
+                    <div class="book-name">Book 4 Name</div>
                 </div>
-                <div class="book-item" onclick="openBookPage('book5')">
-                    <div>Book Content 5</div>
-                    <div class="book-name">Book Name 5</div>
+                <div class="book-box" onclick="openBook('book5')">
+                    <div>Book 5 Content</div>
+                    <div class="book-name">Book 5 Name</div>
                 </div>
-                <div class="book-item" onclick="openBookPage('book6')">
-                    <div>Book Content 6</div>
-                    <div class="book-name">Book Name 6</div>
+                <div class="book-box" onclick="openBook('book6')">
+                    <div>Book 6 Content</div>
+                    <div class="book-name">Book 6 Name</div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Function to open book page when clicked
-        function openBookPage(bookId) {
-            // In a real implementation, this would redirect to the book page
-            console.log("Opening book page:", bookId);
-            // window.location.href = `/books/${bookId}`;
+        // बुक ओपन करने का फंक्शन
+        function openBook(bookId) {
             alert(`Opening book: ${bookId}`);
+            // असल में: window.location.href = `/book/${bookId}`;
         }
         
-        // Initialize sliders
-        const sliders = [
-            { element: document.getElementById('slider1'), currentIndex: 0, direction: -1 },
-            { element: document.getElementById('slider2'), currentIndex: 0, direction: 1 }
-        ];
-        
-        // Auto-slide functionality
-        function autoSlide() {
-            sliders.forEach(slider => {
-                const items = slider.element.children;
-                if (items.length === 0) return;
-                
-                slider.currentIndex = (slider.currentIndex + 1) % items.length;
-                if (slider.currentIndex < 0) slider.currentIndex = items.length - 1;
-                
-                slider.element.style.transform = `translateX(${slider.currentIndex * slider.direction * -100}%)`;
+        // सेलर के बुक्स लोड करने का फंक्शन
+        function loadBooks(booksData) {
+            // यहां बैकेंड से डेटा लाकर बुक्स जोड़ें
+            // उदाहरण:
+            /*
+            const row1 = document.getElementById('row1');
+            const row2 = document.getElementById('row2');
+            
+            // पहली पंक्ति के लिए बुक्स
+            booksData.slice(0, 3).forEach(book => {
+                const box = createBookBox(book);
+                row1.appendChild(box);
             });
             
-            setTimeout(autoSlide, 3000); // Change slide every 3 seconds
+            // दूसरी पंक्ति के लिए बुक्स
+            booksData.slice(3, 6).forEach(book => {
+                const box = createBookBox(book);
+                row2.appendChild(box);
+            });
+            */
         }
         
-        // Start auto-sliding
-        setTimeout(autoSlide, 3000);
+        // बुक बॉक्स बनाने का फंक्शन
+        function createBookBox(book) {
+            const box = document.createElement('div');
+            box.className = 'book-box';
+            box.onclick = () => openBook(book.id);
+            box.innerHTML = `
+                <div>${book.content}</div>
+                <div class="book-name">${book.name}</div>
+            `;
+            return box;
+        }
         
-        // This function would be called when seller adds books
-        function updateBooks(booksData) {
-            // In a real implementation, this would come from your backend
+        // ऑटो स्लाइड फंक्शन
+        function autoSlide() {
+            const rows = document.querySelectorAll('.slider-wrapper');
+            
+            rows.forEach(row => {
+                if (row.scrollLeft + row.offsetWidth >= row.scrollWidth) {
+                    row.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    row.scrollBy({ left: row.offsetWidth * 0.4 + 8, behavior: 'smooth' });
+                }
+            });
+            
+            setTimeout(autoSlide, 3000);
+        }
+        
+        // पेज लोड होने पर
+        window.onload = function() {
+            // उदाहरण डेटा के साथ लोड करें
             const sampleBooks = [
-                { id: 'book1', name: 'Sample Book 1', content: 'Book 1 Preview' },
-                { id: 'book2', name: 'Sample Book 2', content: 'Book 2 Preview' },
-                { id: 'book3', name: 'Sample Book 3', content: 'Book 3 Preview' }
+                { id: 'book1', name: 'Sample Book 1', content: 'Content 1' },
+                { id: 'book2', name: 'Sample Book 2', content: 'Content 2' },
+                { id: 'book3', name: 'Sample Book 3', content: 'Content 3' },
+                { id: 'book4', name: 'Sample Book 4', content: 'Content 4' },
+                { id: 'book5', name: 'Sample Book 5', content: 'Content 5' },
+                { id: 'book6', name: 'Sample Book 6', content: 'Content 6' }
             ];
             
-            // Clear existing items
-            document.querySelectorAll('.book-slider').forEach(slider => {
-                slider.innerHTML = '';
-            });
-            
-            // Add new items
-            sampleBooks.forEach((book, index) => {
-                const item1 = document.createElement('div');
-                item1.className = 'book-item';
-                item1.onclick = () => openBookPage(book.id);
-                item1.innerHTML = `<div>${book.content}</div><div class="book-name">${book.name}</div>`;
-                
-                const item2 = document.createElement('div');
-                item2.className = 'book-item';
-                item2.onclick = () => openBookPage(book.id);
-                item2.innerHTML = `<div>${book.content}</div><div class="book-name">${book.name}</div>`;
-                
-                document.getElementById('slider1').appendChild(item1);
-                document.getElementById('slider2').appendChild(item2);
-            });
-        }
-        
-        // Initialize with sample data
-        updateBooks();
+            loadBooks(sampleBooks);
+            setTimeout(autoSlide, 3000);
+        };
     </script>
 </body>
 </html>
