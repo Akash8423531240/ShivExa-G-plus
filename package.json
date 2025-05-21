@@ -1,7 +1,17 @@
 {
-  "name": "shivexa-app",
+  "name": "shivexa-global-plus",
   "version": "1.0.0",
+  "description": "ShivExa Global Plus - A modern content platform",
+  "type": "module",
   "scripts": {
-    "build": "echo Build successful"
+    "start": "echo 'Run your development server command here'",
+    "build": "echo 'Add your build commands (e.g., Vite, Webpack)'",
+    "test": "echo 'Error: no test specified' && exit 1"
+  },
+  "keywords": [],
+  "author": "Your Name",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
