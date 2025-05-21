@@ -8,10 +8,12 @@
         body {
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
         }
         
         .launchpad-container {
-            width: 100%;
+            width: calc(100% - 4px); /* Subtracting 2px left + 2px right margin */
+            margin: 0 2px; /* 2px margin on both sides */
             position: relative;
         }
         
@@ -23,6 +25,7 @@
             position: relative;
             overflow: hidden;
             box-sizing: border-box;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* More prominent raised effect */
         }
         
         .launchpad-slider {
@@ -34,6 +37,12 @@
         
         .launchpad-slide {
             min-width: 100%;
+            height: 100%;
+        }
+        
+        .launchpad-slide a {
+            display: block;
+            width: 100%;
             height: 100%;
         }
         
@@ -62,13 +71,15 @@
             white-space: nowrap;
         }
         
-        .launchpad-dots {
-            position: absolute;
-            bottom: 4px;
-            left: 0;
-            right: 0;
+        .launchpad-dots-container {
+            width: 100%;
             display: flex;
             justify-content: center;
+            margin-top: 5px;
+        }
+        
+        .launchpad-dots {
+            display: flex;
             gap: 2px;
         }
         
@@ -93,16 +104,20 @@
             </div>
             
             <div class="launchpad-slider">
-                <!-- Slides will be added by admin -->
-                <div class="launchpad-slide">
-                    <a href="#"><img src="product1.jpg" alt="Product"></a>
+                <!-- Slides will be added dynamically by admin -->
+                <div class="launchpad-slide" data-product-url="product1.html">
+                    <a><img src="product1.jpg" alt="Product"></a>
                 </div>
-                <div class="launchpad-slide">
-                    <a href="#"><img src="product2.jpg" alt="Product"></a>
+                <div class="launchpad-slide" data-product-url="product2.html">
+                    <a><img src="product2.jpg" alt="Product"></a>
                 </div>
+                <!-- More products can be added -->
             </div>
-            
+        </div>
+        
+        <div class="launchpad-dots-container">
             <div class="launchpad-dots">
+                <!-- Dots will be generated automatically -->
                 <div class="launchpad-dot active"></div>
                 <div class="launchpad-dot"></div>
             </div>
@@ -110,40 +125,53 @@
     </div>
 
     <script>
-        // Auto-sliding functionality
-        let currentSlide = 0;
-        const slider = document.querySelector('.launchpad-slider');
-        const dots = document.querySelectorAll('.launchpad-dot');
-        const slides = document.querySelectorAll('.launchpad-slide');
-        const totalSlides = slides.length;
-        
-        function goToSlide(n) {
-            currentSlide = (n + totalSlides) % totalSlides;
-            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.querySelector('.launchpad-slider');
+            const slides = document.querySelectorAll('.launchpad-slide');
+            const dotsContainer = document.querySelector('.launchpad-dots');
+            let currentSlide = 0;
             
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
+            // Clear existing dots
+            dotsContainer.innerHTML = '';
+            
+            // Create dots based on number of slides
+            slides.forEach((slide, index) => {
+                const dot = document.createElement('div');
+                dot.classList.add('launchpad-dot');
+                if(index === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(index));
+                dotsContainer.appendChild(dot);
             });
-        }
-        
-        function nextSlide() {
-            goToSlide(currentSlide + 1);
-        }
-        
-        // Auto slide every 5 seconds
-        setInterval(nextSlide, 5000);
-        
-        // Click on dots to go to specific slide
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                goToSlide(index);
+            
+            // Auto-sliding functionality
+            function goToSlide(n) {
+                currentSlide = n % slides.length;
+                slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+                
+                // Update dots
+                document.querySelectorAll('.launchpad-dot').forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+            }
+            
+            function nextSlide() {
+                goToSlide(currentSlide + 1);
+            }
+            
+            // Auto slide every 5 seconds
+            let slideInterval = setInterval(nextSlide, 5000);
+            
+            // Click on slide to go to product page
+            slides.forEach(slide => {
+                slide.addEventListener('click', () => {
+                    window.location.href = slide.getAttribute('data-product-url');
+                });
             });
-        });
-        
-        // Click on slide to go to product page
-        slides.forEach(slide => {
-            slide.addEventListener('click', () => {
-                window.location.href = slide.querySelector('a').href;
+            
+            // Pause on hover
+            slider.addEventListener('mouseenter', () => clearInterval(slideInterval));
+            slider.addEventListener('mouseleave', () => {
+                slideInterval = setInterval(nextSlide, 5000);
             });
         });
     </script>
