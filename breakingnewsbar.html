@@ -18,6 +18,7 @@
             margin: 10px 0;
             display: flex;
             flex-direction: column;
+            border-radius: 8px;
         }
         
         /* Header with blinking dot */
@@ -29,15 +30,16 @@
             display: flex;
             align-items: center;
             position: relative;
-            height: 30px;
+            height: 24px;
             width: fit-content;
             border-top-right-radius: 0;
             border-bottom-right-radius: 15px;
+            font-size: 12px;
         }
         
         .blinking-dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             background-color: white;
             border-radius: 50%;
             margin-right: 8px;
@@ -64,9 +66,11 @@
         .settings-gear {
             position: absolute;
             right: 10px;
-            top: 5px;
+            top: 30px;
             cursor: pointer;
             font-size: 18px;
+            color: #0066cc;
+            z-index: 10;
         }
         
         /* News content area */
@@ -75,7 +79,7 @@
             overflow: hidden;
             position: relative;
             padding: 10px;
-            padding-left: 30px; /* Added to align with text */
+            padding-left: 30px;
         }
         
         .news-item {
@@ -125,6 +129,7 @@
             width: 80%;
             max-width: 500px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            border-radius: 8px;
         }
         
         .settings-modal h3 {
@@ -155,6 +160,7 @@
             padding: 8px 16px;
             cursor: pointer;
             float: right;
+            border-radius: 4px;
         }
         
         .save-btn:hover {
@@ -173,8 +179,9 @@
         <div class="breaking-news-header">
             <div class="blinking-dot"></div>
             BREAKING NEWS LIVE
-            <div class="settings-gear">⚙️</div>
         </div>
+        
+        <div class="settings-gear">⚙️</div>
         
         <div class="news-content" id="newsContent">
             <!-- News items will be dynamically inserted here -->
