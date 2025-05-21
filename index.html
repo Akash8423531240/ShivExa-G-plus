@@ -6,20 +6,26 @@
   <title>ShivExa Global Plus</title>
   <!-- External CSS Link -->
   <link rel="stylesheet" href="./style.css">
-  <!-- Inline Styles (for critical/overrides only) -->
   <style>
-    /* Critical overrides (if any) */
     #top-header-slot, #next-section-slot {
-      min-height: 0; /* Ensures slots collapse if empty */
+      min-height: 0;
+    }
+    iframe {
+      width: 100%;
+      border: none;
+      display: block;
     }
   </style>
 </head>
 <body>
-  <!-- Top-header placeholder -->
-  <div id="top-header-slot"></div>
 
-  <!-- Breaking-news placeholder -->
-  <div id="next-section-slot"></div>
+  <!-- Top Header -->
+  <div id="top-header-slot">
+    <script type="module" src="./TopHeader.js"></script>
+  </div>
+
+  <!-- Breaking News Bar -->
+  <iframe src="./BreakingNewsBar.html" title="Breaking News Bar" height="190"></iframe>
 
   <!-- Newspaper Slider -->
   <iframe src="./NewspaperSlider.html" title="Newspaper Slider"></iframe>
@@ -27,13 +33,11 @@
   <!-- Book Box Slide -->
   <iframe src="./bookboxslide.html" title="Book Box Slide"></iframe>
 
-  <!-- Book PDF -->
+  <!-- Book PDF Viewer -->
   <iframe src="./bookpdffile.html" title="Book PDF Viewer"></iframe>
 
+  <!-- Title Heading -->
   <h1>ShivExa Global Plus — Coming Soon</h1>
 
-  <!-- JavaScript Modules -->
-  <script type="module" src="./TopHeader.js"></script>
-  <script type="module" src="./breakingnewsbar.js"></script> <!-- Corrected lowercase name -->
 </body>
 </html>
