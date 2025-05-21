@@ -8,7 +8,7 @@ const initBreakingNewsBar = () => {
       logo: 'https://i.imgur.com/xyz123.png',
       news: [
         { 
-          text: 'दिल्ली में तापमान 45°C पहुंचा, लाल अलर्ट जारी | आजतक के अनुसार यह मई में अब तक का सबसे ज्यादा तापमान है', 
+          text: 'दिल्ली में तापमान 45°C पहुंचा, लाल अलर्ट जारी | आजतक के अनुसार यह मई में अब तक का सबसे ज्यादा तापमान है'
           url: 'https://aajtak.com/weather',
           video: 'https://example.com/videos/weather.mp4'
         }
