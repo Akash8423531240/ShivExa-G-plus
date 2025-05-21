@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Display System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .book-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .book-box {
+            width: calc(50% - 10px);
+            height: 0.5in; /* 1/2 inch height */
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: inline-block;
+        }
+        
+        .book-slider {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+        
+        .book-item {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            box-sizing: border-box;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .book-name {
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .slider-left {
+            float: left;
+            margin-right: 20px;
+        }
+        
+        .slider-right {
+            float: right;
+        }
+        
+        @media (max-width: 768px) {
+            .book-box {
+                width: 100%;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="book-container">
+        <!-- Left sliding box (right to left) -->
+        <div class="book-box slider-left">
+            <div class="book-slider" id="slider1">
+                <!-- Book items will be added dynamically from seller data -->
+                <div class="book-item" onclick="openBookPage('book1')">
+                    <div>Book Content 1</div>
+                    <div class="book-name">Book Name 1</div>
+                </div>
+                <div class="book-item" onclick="openBookPage('book2')">
+                    <div>Book Content 2</div>
+                    <div class="book-name">Book Name 2</div>
+                </div>
+                <div class="book-item" onclick="openBookPage('book3')">
+                    <div>Book Content 3</div>
+                    <div class="book-name">Book Name 3</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right sliding box (left to right) -->
+        <div class="book-box slider-right">
+            <div class="book-slider" id="slider2">
+                <!-- Book items will be added dynamically from seller data -->
+                <div class="book-item" onclick="openBookPage('book4')">
+                    <div>Book Content 4</div>
+                    <div class="book-name">Book Name 4</div>
+                </div>
+                <div class="book-item" onclick="openBookPage('book5')">
+                    <div>Book Content 5</div>
+                    <div class="book-name">Book Name 5</div>
+                </div>
+                <div class="book-item" onclick="openBookPage('book6')">
+                    <div>Book Content 6</div>
+                    <div class="book-name">Book Name 6</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to open book page when clicked
+        function openBookPage(bookId) {
+            // In a real implementation, this would redirect to the book page
+            console.log("Opening book page:", bookId);
+            // window.location.href = `/books/${bookId}`;
+            alert(`Opening book: ${bookId}`);
+        }
+        
+        // Initialize sliders
+        const sliders = [
+            { element: document.getElementById('slider1'), currentIndex: 0, direction: -1 },
+            { element: document.getElementById('slider2'), currentIndex: 0, direction: 1 }
+        ];
+        
+        // Auto-slide functionality
+        function autoSlide() {
+            sliders.forEach(slider => {
+                const items = slider.element.children;
+                if (items.length === 0) return;
+                
+                slider.currentIndex = (slider.currentIndex + 1) % items.length;
+                if (slider.currentIndex < 0) slider.currentIndex = items.length - 1;
+                
+                slider.element.style.transform = `translateX(${slider.currentIndex * slider.direction * -100}%)`;
+            });
+            
+            setTimeout(autoSlide, 3000); // Change slide every 3 seconds
+        }
+        
+        // Start auto-sliding
+        setTimeout(autoSlide, 3000);
+        
+        // This function would be called when seller adds books
+        function updateBooks(booksData) {
+            // In a real implementation, this would come from your backend
+            const sampleBooks = [
+                { id: 'book1', name: 'Sample Book 1', content: 'Book 1 Preview' },
+                { id: 'book2', name: 'Sample Book 2', content: 'Book 2 Preview' },
+                { id: 'book3', name: 'Sample Book 3', content: 'Book 3 Preview' }
+            ];
+            
+            // Clear existing items
+            document.querySelectorAll('.book-slider').forEach(slider => {
+                slider.innerHTML = '';
+            });
+            
+            // Add new items
+            sampleBooks.forEach((book, index) => {
+                const item1 = document.createElement('div');
+                item1.className = 'book-item';
+                item1.onclick = () => openBookPage(book.id);
+                item1.innerHTML = `<div>${book.content}</div><div class="book-name">${book.name}</div>`;
+                
+                const item2 = document.createElement('div');
+                item2.className = 'book-item';
+                item2.onclick = () => openBookPage(book.id);
+                item2.innerHTML = `<div>${book.content}</div><div class="book-name">${book.name}</div>`;
+                
+                document.getElementById('slider1').appendChild(item1);
+                document.getElementById('slider2').appendChild(item2);
+            });
+        }
+        
+        // Initialize with sample data
+        updateBooks();
+    </script>
+</body>
+</html>
