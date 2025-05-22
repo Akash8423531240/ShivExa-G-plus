@@ -1,4 +1,4 @@
-/* ===== Global Styles ===== */
+/* ===== Global Reset & Base ===== */
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
   background-color: #f5f5f5;
   color: #333;
   line-height: 1.6;
@@ -16,7 +16,7 @@ body {
   min-height: 100vh;
 }
 
-/* ===== Header Placeholders ===== */
+/* ===== Layout Sections ===== */
 #top-header-slot,
 #next-section-slot {
   background: #ffffff;
@@ -25,7 +25,7 @@ body {
   min-height: 0;
 }
 
-/* ===== Iframe Styles ===== */
+/* ===== Iframe Embeds ===== */
 iframe {
   display: block;
   width: 100%;
@@ -35,22 +35,28 @@ iframe {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Newspaper Slider */
+/* Specific Iframe Heights */
+iframe[src="./BreakingNewsBar.html"] {
+  height: 190px;
+}
+
 iframe[src="./NewspaperSlider.html"] {
   height: 200px;
 }
 
-/* Book Box Slide */
+iframe[src="./launchpad.html"] {
+  height: 300px;
+}
+
 iframe[src="./bookboxslide.html"] {
   height: 300px;
 }
 
-/* Book PDF */
 iframe[src="./bookpdffile.html"] {
   height: 600px;
 }
 
-/* ===== Coming Soon Heading ===== */
+/* ===== Headings & Titles ===== */
 h1 {
   text-align: center;
   margin: 20px 0;
@@ -59,9 +65,31 @@ h1 {
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* ===== Responsive Adjustments ===== */
+/* ===== Toast Notifications ===== */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  z-index: 1000;
+  font-size: 14px;
+  opacity: 0.95;
+}
+.toast-info { background: #3498db; }
+.toast-success { background: #2ecc71; }
+.toast-error { background: #e74c3c; }
+
+/* ===== Responsive Design ===== */
 @media (max-width: 768px) {
   iframe[src="./bookpdffile.html"] {
-    height: 400px; /* Smaller height for mobile */
+    height: 400px; /* Mobile adjustment */
+  }
+
+  h1 {
+    font-size: 1.5rem;
   }
 }
