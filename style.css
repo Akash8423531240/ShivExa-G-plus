@@ -93,3 +93,80 @@ h1 {
     font-size: 1.5rem;
   }
 }
+
+/* ===== Post Box Styles (Add to postbox.css or main CSS) ===== */
+
+#post-box-container {
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 20px auto;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+#post-box-container h2 {
+  margin-top: 0;
+  color: #022b05;
+  font-family: 'Playfair Display', serif;
+}
+
+#post-text {
+  width: 100%;
+  min-height: 100px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 1rem;
+  resize: vertical;
+  margin-bottom: 15px;
+}
+
+#media-upload-section {
+  margin-bottom: 15px;
+  display: flex;
+  gap: 15px;
+}
+
+#preview-area {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.preview-image {
+  max-height: 120px;
+  border-radius: 6px;
+  border: 2px solid #0a8f08; /* Shlati green border */
+}
+
+.preview-video {
+  max-height: 120px;
+  border-radius: 6px;
+  border: 2px solid #0a8f08;
+}
+
+button {
+  background: #0a8f08;
+  border: none;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #087006;
+}
+
+#close-post {
+  background: #888;
+}
+
+#close-post:hover {
+  background: #555;
+  }
