@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Create Post - ShivExa</title>
+  <link rel="stylesheet" href="postbox.css" />
+</head>
+<body>
+
+  <div id="post-box-container">
+    <h2>Create a Post</h2>
+
+    <textarea id="post-text" placeholder="Write something..."></textarea>
+
+    <div id="media-upload-section">
+      <input type="file" id="image-upload" accept="image/*" multiple />
+      <input type="file" id="video-upload" accept="video/*" />
+    </div>
+
+    <div id="preview-area"></div>
+
+    <button id="submit-post">Post</button>
+    <button id="close-post">Close</button>
+  </div>
+
+  <script>
+    // Simple script to preview selected images/videos
+    const imageUpload = document.getElementById('image-upload');
+    const videoUpload = document.getElementById('video-upload');
+    const previewArea = document.getElementById('preview-area');
+    const closeBtn = document.getElementById('close-post');
+
+    imageUpload.addEventListener('change', () => {
+      previewArea.innerHTML = '';
+      const files = Array.from(imageUpload.files);
+      files.forEach(file => {
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(file);
+        img.classList.add('preview-image');
+        previewArea.appendChild(img);
+      });
+    });
+
+    videoUpload.addEventListener('change', () => {
+      previewArea.innerHTML = '';
+      const file = videoUpload.files[0];
+      if(file) {
+        const video = document.createElement('video');
+        video.src = URL.createObjectURL(file);
+        video.controls = true;
+        video.classList.add('preview-video');
+        previewArea.appendChild(video);
+      }
+    });
+
+    closeBtn.addEventListener('click', () => {
+      window.parent.document.getElementById('post-box-frame').style.display = 'none';
+    });
+
+    document.getElementById('submit-post').addEventListener('click', () => {
+      // TODO: Add post submission logic with API call
+      alert('Post submitted! (Functionality to be implemented)');
+      window.parent.document.getElementById('post-box-frame').style.display = 'none';
+    });
+  </script>
+
+</body>
+</html>
