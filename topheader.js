@@ -2,9 +2,7 @@ const initTopHeader = () => {
   const slot = document.getElementById('top-header-slot');
   if (!slot) return;
 
-  // TODO: Replace with dynamic logo src from admin panel
   const logoSrc = 'https://via.placeholder.com/64';
-  // TODO: Replace with dynamic story data of followed users from API
   const followedStories = [
     { img: 'https://via.placeholder.com/56', id: 'user1' },
     { img: 'https://via.placeholder.com/56', id: 'user2' },
@@ -15,21 +13,21 @@ const initTopHeader = () => {
   slot.innerHTML = `
     <div style="
       background: white;
-      padding: 10px 20px;
+      padding: 5px 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     ">
       <div style="display: flex; align-items: center; gap: 12px;">
         <img src="${logoSrc}" alt="Brand Logo" style="
-          width: 64px;
-          height: 64px;
+          width: 30px;
+          height: 30px;
           border-radius: 50%;
           object-fit: cover;
         ">
         <div>
           <h1 style=" 
-          font-family: 'Playfair Display', serif;
+            font-family: 'Playfair Display', serif;
             font-size: 1.5rem;
             font-weight: bold;
             color: #022b05;
@@ -44,13 +42,10 @@ const initTopHeader = () => {
       </div>
       <div style="display: flex; gap: 16px;">
         <button onclick="window.location='/cart'" style="background: none; border: none; cursor: pointer;">
-          <span style="font-size:   30px;">🛒</span>
+          <span style="font-size: 30px;">🛒</span>
         </button>
         <button onclick="window.location='/activity'" style="background: none; border: none; cursor: pointer;">
-          <span style="font-size:  30px; color: #000;">♡</span>
-        </button>
-        <button id="open-post-btn" style="background: none; border: none; cursor: pointer;">
-          <span style="font-size:  28px;">➕</span>
+          <span style="font-size: 30px; color: #000;">♡</span>
         </button>
       </div>
     </div>
@@ -126,8 +121,7 @@ const initTopHeader = () => {
         display: none;
       }
     </style>
-
-  });
+  `;
 };
 
 initTopHeader();
