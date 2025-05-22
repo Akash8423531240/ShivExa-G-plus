@@ -126,16 +126,7 @@ const initTopHeader = () => {
         display: none;
       }
     </style>
-  `;
 
-  // अब ये पोस्ट बटन को handle करें:
-  document.getElementById('open-post-btn').addEventListener('click', (e) => {
-    e.preventDefault();
-    const postFrame = document.getElementById('post-box-frame');
-    if(postFrame) {
-      postFrame.style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
   });
 };
 
