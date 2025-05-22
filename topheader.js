@@ -49,7 +49,7 @@ const initTopHeader = () => {
         <button onclick="window.location='/activity'" style="background: none; border: none; cursor: pointer;">
           <span style="font-size:  30px; color: #000;">♡</span>
         </button>
-        <button onclick="window.location='/post'" style="background: none; border: none; cursor: pointer;">
+        <button id="open-post-btn" style="background: none; border: none; cursor: pointer;">
           <span style="font-size:  28px;">➕</span>
         </button>
       </div>
@@ -127,6 +127,16 @@ const initTopHeader = () => {
       }
     </style>
   `;
+
+  // अब ये पोस्ट बटन को handle करें:
+  document.getElementById('open-post-btn').addEventListener('click', (e) => {
+    e.preventDefault();
+    const postFrame = document.getElementById('post-box-frame');
+    if(postFrame) {
+      postFrame.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
 };
 
 initTopHeader();
