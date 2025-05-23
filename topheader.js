@@ -1,127 +1,334 @@
-const initTopHeader = () => {
-  const slot = document.getElementById('top-header-slot');
-  if (!slot) return;
-
-  const logoSrc = 'https://via.placeholder.com/64';
-  const followedStories = [
-    { img: 'https://via.placeholder.com/56', id: 'user1' },
-    { img: 'https://via.placeholder.com/56', id: 'user2' },
-    { img: 'https://via.placeholder.com/56', id: 'user3' },
-    { img: 'https://via.placeholder.com/56', id: 'user4' },
-  ];
-
-  slot.innerHTML = `
-    <div style="
-      background: white;
-      padding: 5px 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    ">
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <img src="${logoSrc}" alt="Brand Logo" style="
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-          object-fit: cover;
-        ">
-        <div>
-          <h1 style=" 
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #022b05;
-            margin: 0;
-          ">ShivExa</h1>
-          <p style="
-            font-size: 0.9rem;
-            color: #424242;
-            margin: 0;
-          ">Global Plus</p>
-        </div>
-      </div>
-      <div style="display: flex; gap: 16px;">
-        <button onclick="window.location='/cart'" style="background: none; border: none; cursor: pointer;">
-          <span style="font-size: 30px;">🛒</span>
-        </button>
-        <button onclick="window.location='/activity'" style="background: none; border: none; cursor: pointer;">
-          <span style="font-size: 30px; color: #000;">♡</span>
-        </button>
-      </div>
-    </div>
-    <div style="padding: 12px 20px;">
-      <div style="
-        display: flex;
-        gap: 12px;
-        overflow-x: auto;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-      ">
-        <div style="flex: 0 0 auto;">
-          <button onclick="window.location='/add-story'" style="background: none; border: none; cursor: pointer;">
-            <div style="
-              position: relative;
-              width: 56px;
-              height: 56px;
-            ">
-              <img src="https://via.placeholder.com/56" alt="Your Story" style="
-                width: 56px;
-                height: 56px;
-                border-radius: 50%;
-                object-fit: cover;
-              ">
-              <div style="
-                position: absolute;
-                bottom: 0;
-                right: 0;
-                width: 24px;
-                height: 24px;
-                background: #000;
-                color: white;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 16px;
-              ">+</div>
-            </div>
-            <p style="text-align: center; font-size: 0.8rem; color: #000; margin: 4px 0 0;">Your Story</p>
-          </button>
-        </div>
-        ${followedStories.map(story => `
-          <div style="flex: 0 0 auto;">
-            <div style="
-              position: relative;
-              width: 56px;
-              height: 56px;
-            ">
-              <img src="${story.img}" alt="Story" style="
-                width: 56px;
-                height: 56px;
-                border-radius: 50%;
-                object-fit: cover;
-              ">
-              <div style="
-                position: absolute;
-                inset: 0;
-                border-radius: 50%;
-                border: 2px solid transparent;
-                background: linear-gradient(45deg, #FF512F, #F09819);
-                -webkit-mask: linear-gradient(#fff 0 0);
-                mask: linear-gradient(#fff 0 0);
-              "></div>
-            </div>
-            <p style="text-align: center; font-size: 0.8rem; color: #000; margin: 4px 0 0;">${story.id}</p>
-          </div>
-        `).join('')}
-      </div>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShivExa Pro</title>
     <style>
-      #top-header-slot::-webkit-scrollbar {
-        display: none;
-      }
+        /* Main Header Styles */
+        .top-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 10px 15px;
+        }
+        
+        .header-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .header-icon {
+            font-size: 24px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        /* Story Section Styles */
+        .stories-container {
+            display: flex;
+            padding: 15px 0;
+            overflow-x: auto;
+            scrollbar-width: none; /* Firefox */
+        }
+        
+        .stories-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        
+        .story {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        
+        .story-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #ff4757;
+            padding: 2px;
+            object-fit: cover;
+        }
+        
+        .your-story .story-avatar {
+            border-color: #ccc;
+        }
+        
+        .story-username {
+            margin-top: 5px;
+            font-size: 12px;
+            max-width: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+        }
+        
+        .close-modal {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Notification Badge */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
-  `;
-};
+</head>
+<body>
+    <!-- Top Header -->
+    <header class="top-header">
+        <!-- First Row: Logo and Icons -->
+        <div class="header-top-row">
+            <div class="logo">ShivExa Pro</div>
+            <div class="header-icons">
+                <div class="header-icon cart-icon">
+                    🛒
+                    <span class="notification-badge cart-count">0</span>
+                </div>
+                <div class="header-icon notification-icon">
+                    ❣️
+                    <span class="notification-badge notification-count">3</span>
+                </div>
+                <div class="header-icon post-icon">+</div>
+            </div>
+        </div>
+        
+        <!-- Second Row: Stories -->
+        <div class="stories-container">
+            <div class="story your-story">
+                <img src="https://via.placeholder.com/60" alt="Your Story" class="story-avatar">
+                <span class="story-username">Your Story</span>
+            </div>
+            <!-- Stories will be dynamically added here -->
+        </div>
+    </header>
+    
+    <!-- Create Post Modal -->
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Create Post</h3>
+            <textarea placeholder="What's on your mind?" rows="4" style="width: 100%; margin-bottom: 10px;"></textarea>
+            <div style="margin-bottom: 15px;">
+                <button id="addPhotoBtn">📷 Photo/Video</button>
+                <button id="createReelBtn">🎬 Create Reel</button>
+            </div>
+            <button id="postBtn" style="background-color: #ff4757; color: white; border: none; padding: 8px 15px; border-radius: 5px;">Post</button>
+        </div>
+    </div>
+    
+    <!-- Notification Modal -->
+    <div id="notificationModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Notifications</h3>
+            <div class="notification-list">
+                <div class="notification-item">User1 liked your post</div>
+                <div class="notification-item">User2 commented on your post</div>
+                <div class="notification-item">User3 reposted your content</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Your Cart</h3>
+            <div class="cart-items">
+                <!-- Cart items will be added here dynamically -->
+                <p>No items in cart</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Story View Modal -->
+    <div id="storyModal" class="modal">
+        <div class="modal-content" style="background-color: transparent; box-shadow: none;">
+            <span class="close-modal" style="color: white; font-size: 30px;">&times;</span>
+            <div id="storyContent" style="text-align: center;">
+                <!-- Story content will be loaded here -->
+            </div>
+        </div>
+    </div>
 
-initTopHeader();
+    <script>
+        // DOM Elements
+        const postIcon = document.querySelector('.post-icon');
+        const notificationIcon = document.querySelector('.notification-icon');
+        const cartIcon = document.querySelector('.cart-icon');
+        const postModal = document.getElementById('postModal');
+        const notificationModal = document.getElementById('notificationModal');
+        const cartModal = document.getElementById('cartModal');
+        const storyModal = document.getElementById('storyModal');
+        const closeButtons = document.querySelectorAll('.close-modal');
+        const storiesContainer = document.querySelector('.stories-container');
+        const yourStory = document.querySelector('.your-story');
+        
+        // Sample data for stories (in a real app, this would come from an API)
+        const followers = [
+            { id: 1, name: 'User1', avatar: 'https://via.placeholder.com/60/ff4757' },
+            { id: 2, name: 'User2', avatar: 'https://via.placeholder.com/60/70a1ff' },
+            { id: 3, name: 'User3', avatar: 'https://via.placeholder.com/60/2ed573' },
+            { id: 4, name: 'User4', avatar: 'https://via.placeholder.com/60/ffa502' },
+            { id: 5, name: 'User5', avatar: 'https://via.placeholder.com/60/1e90ff' },
+            { id: 6, name: 'User6', avatar: 'https://via.placeholder.com/60/ff6b81' }
+        ];
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load followers' stories
+            loadStories();
+            
+            // Set event listeners
+            postIcon.addEventListener('click', openPostModal);
+            notificationIcon.addEventListener('click', openNotificationModal);
+            cartIcon.addEventListener('click', openCartModal);
+            yourStory.addEventListener('click', openYourStory);
+            
+            // Close modals when clicking X
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    modal.style.display = 'none';
+                });
+            });
+            
+            // Close modals when clicking outside
+            window.addEventListener('click', function(event) {
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = 'none';
+                }
+            });
+            
+            // Initialize cart count (in a real app, this would come from your cart system)
+            updateCartCount(0);
+        });
+        
+        // Function to load followers' stories
+        function loadStories() {
+            followers.forEach(follower => {
+                const storyElement = document.createElement('div');
+                storyElement.className = 'story';
+                storyElement.innerHTML = `
+                    <img src="${follower.avatar}" alt="${follower.name}" class="story-avatar">
+                    <span class="story-username">${follower.name}</span>
+                `;
+                storyElement.addEventListener('click', () => openStory(follower));
+                storiesContainer.appendChild(storyElement);
+            });
+        }
+        
+        // Function to open post creation modal
+        function openPostModal() {
+            postModal.style.display = 'flex';
+        }
+        
+        // Function to open notifications modal
+        function openNotificationModal() {
+            notificationModal.style.display = 'flex';
+        }
+        
+        // Function to open cart modal
+        function openCartModal() {
+            // In a real app, you would load cart items here
+            cartModal.style.display = 'flex';
+        }
+        
+        // Function to open your own story (which would go to post creation)
+        function openYourStory() {
+            openPostModal();
+        }
+        
+        // Function to open a follower's story
+        function openStory(follower) {
+            // In a real app, you would load the actual story content here
+            const storyContent = document.getElementById('storyContent');
+            storyContent.innerHTML = `
+                <img src="${follower.avatar}" alt="${follower.name}" style="max-width: 100%; border-radius: 10px;">
+                <p style="color: white; margin-top: 10px;">${follower.name}'s story</p>
+            `;
+            storyModal.style.display = 'flex';
+            
+            // Auto-close after 5 seconds (like real stories)
+            setTimeout(() => {
+                storyModal.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Function to update cart count
+        function updateCartCount(count) {
+            const cartCountElement = document.querySelector('.cart-count');
+            cartCountElement.textContent = count;
+            if (count === 0) {
+                cartCountElement.style.display = 'none';
+            } else {
+                cartCountElement.style.display = 'flex';
+            }
+        }
+        
+        // In a real app, you would have functions to:
+        // - Handle post creation
+        // - Load actual notifications
+        // - Manage cart items
+        // - Load real stories from your backend
+    </script>
+</body>
+</html>
