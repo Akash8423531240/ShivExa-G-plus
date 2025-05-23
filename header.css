@@ -3,29 +3,36 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: calc(100% - 4px); /* 2px left and right margin */
-  margin: 0 2px;
+  width: 100%;
   background-color: #ffffff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  padding: 10px 15px;
-  border-radius: 8px;
+  padding: 10px 0;
+}
+
+/* Main container for header content */
+.header-container {
+  width: calc(100% - 4px);
+  margin: 0 auto;
+  padding: 0 2px;
 }
 
 /* Logo Styles */
 .logo {
   font-size: 18px;
-  font-weight: bold;
-  color: #000000; /* Blood black */
-  font-family: 'Arial', sans-serif; /* Or any stylish font you prefer */
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.2); /* Ubhra hua look */
+  font-weight: 800; /* Extra bold for blood black effect */
+  color: #000;
+  font-family: 'Segoe UI', Arial, sans-serif; /* Stylish font */
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+  letter-spacing: 0.5px;
 }
 
 .logo::after {
   content: " pro";
   font-size: 14px;
-  font-weight: bold;
-  color: #0a8f08; /* Shaleti green */
+  font-weight: 700;
+  color: #0a8f08;
+  vertical-align: middle;
 }
 
 /* Header Top Row */
@@ -33,21 +40,26 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 10px;
+  padding: 0 15px 10px 15px;
 }
 
 /* Header Icons */
 .header-icons {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 18px; /* Slightly larger gap */
 }
 
 .header-icon {
   font-size: 22px;
   cursor: pointer;
   position: relative;
-  color: #333333;
+  color: #333;
+  transition: transform 0.2s;
+}
+
+.header-icon:hover {
+  transform: scale(1.1);
 }
 
 /* Notification Badge */
@@ -64,16 +76,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-weight: bold;
 }
 
 /* Story Section */
 .stories-container {
   display: flex;
-  padding: 10px 0;
+  padding: 10px 15px;
   overflow-x: auto;
   scrollbar-width: none;
-  margin: 0 2px;
-  gap: 15px;
+  gap: 12px;
 }
 
 .stories-container::-webkit-scrollbar {
@@ -84,39 +96,44 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-shrink: 0;
+  flex: 0 0 auto;
   cursor: pointer;
   position: relative;
 }
 
 .story-avatar {
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  border: 3px solid #800080; /* Dark purple border */
+  border: 3px solid #6a0dad; /* Dark purple */
   padding: 2px;
   object-fit: cover;
-  background-color: white;
+  background: linear-gradient(45deg, #ff9a9e, #fad0c4);
 }
 
 .story-username {
-  margin-top: 5px;
-  font-size: 12px;
-  max-width: 60px;
+  margin-top: 6px;
+  font-size: 11px;
+  max-width: 64px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: center;
+  font-weight: 500;
 }
 
-/* Small + icon on Your Story */
+/* Your Story special styling */
+.your-story .story-avatar {
+  border-color: #ccc;
+}
+
 .your-story::after {
   content: "+";
   position: absolute;
-  bottom: 10px;
-  right: 0;
-  background-color: #ffffff;
-  color: #0a8f08; /* Shaleti green */
+  bottom: 15px;
+  right: -2px;
+  background-color: #fff;
+  color: #0a8f08;
   border: 2px solid #0a8f08;
   border-radius: 50%;
   font-size: 12px;
