@@ -2,168 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ShivExa Pro</title>
-  <style>
-    /* Main Header Styles */
-    .top-header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: #ffffff;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      z-index: 1000;
-      padding: 10px 15px;
-    }
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShivExa Global Plus</title>
 
-    .header-top-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 10px;
-    }
-
-    .logo {
-      font-size: 20px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    .header-icons {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .header-icon {
-      font-size: 24px;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .notification-badge {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background-color: #ff4757;
-      color: white;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      font-size: 12px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* Story Section Styles */
-    .stories-container {
-      display: flex;
-      padding: 15px 0;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-
-    .stories-container::-webkit-scrollbar {
-      display: none;
-    }
-
-    .story {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-right: 15px;
-      flex-shrink: 0;
-      cursor: pointer;
-    }
-
-    .story-avatar {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      border: 2px solid #ff4757;
-      padding: 2px;
-      object-fit: cover;
-    }
-
-    .your-story .story-avatar {
-      border-color: #ccc;
-    }
-
-    .story-username {
-      margin-top: 5px;
-      font-size: 12px;
-      max-width: 60px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    /* Content Styles */
-    .content {
-      margin-top: 180px; /* Adjust for fixed header */
-      padding: 20px;
-    }
-
-    iframe {
-      width: 100%;
-      border: none;
-      display: block;
-      margin-bottom: 20px;
-    }
-
-    /* Footer Styles */
-    .footer {
-      text-align: center;
-      margin: 40px 0;
-      padding: 20px;
-    }
-  </style>
+  <!-- External CSS Files -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/header.css"> <!-- Header Styles -->
 </head>
 <body>
-  <!-- Top Header -->
-  <header class="top-header">
-    <!-- First Row: Logo and Icons -->
-    <div class="header-top-row">
-      <div class="logo">ShivExa Pro</div>
-      <div class="header-icons">
-        <div class="header-icon cart-icon">
-          🛒
-          <span class="notification-badge cart-count">0</span>
-        </div>
-        <div class="header-icon notification-icon">
-          ♡
-          <span class="notification-badge notification-count">3</span>
-        </div>
-        <div class="header-icon post-icon">
-          ➕
-          <span class="notification-badge">+</span>
-        </div>
-      </div>
-    </div>
 
-    <!-- Second Row: Stories -->
-    <div class="stories-container">
-      <div class="story your-story">
-        <img src="https://via.placeholder.com/60" alt="Your Story" class="story-avatar">
-        <span class="story-username">Your Story</span>
-      </div>
-      <!-- Stories will be dynamically added here -->
-    </div>
-  </header>
+  <!-- Top Header Section -->
+  <div id="top-header-slot">
+    <iframe src="./topheader.html" title="Top Header" scrolling="no"></iframe>
+  </div>
 
-  <!-- Main Content -->
-  <div class="content">
-    <!-- Breaking News -->
-    <iframe src="./breakingnewsbar.html" title="Breaking News Bar" height="190"></iframe>
-    <!-- Newspaper Slider -->
-    <iframe src="./newspaperslider.html" title="Newspaper Slider"></iframe>
-    <!-- Launch Pad -->
+  <!-- Breaking News Section -->
+  <div id="next-section-slot">
+    <iframe src="./BreakingNewsBar.html" title="Breaking News"></iframe>
+    <iframe src="./NewspaperSlider.html" title="Newspaper Slider"></iframe>
     <iframe src="./launchpad.html" title="Launch Pad"></iframe>
-    <!-- Book Box Slide -->
     <iframe src="./bookboxslide.html" title="Book Box Slide"></iframe>
-    <!-- Book PDF Viewer -->
     <iframe src="./bookpdffile.html" title="Book PDF Viewer"></iframe>
   </div>
 
@@ -196,15 +54,15 @@
     });
 
     // Icon Click Handlers
-    document.querySelector('.cart-icon').addEventListener('click', function() {
+    document.querySelector('.cart-icon')?.addEventListener('click', function() {
       alert('Cart clicked - would open cart modal');
     });
 
-    document.querySelector('.notification-icon').addEventListener('click', function() {
+    document.querySelector('.notification-icon')?.addEventListener('click', function() {
       alert('Notifications clicked - would open notifications');
     });
 
-    document.querySelector('.post-icon').addEventListener('click', function() {
+    document.querySelector('.post-icon')?.addEventListener('click', function() {
       alert('+ clicked - would open post creation');
     });
   </script>
