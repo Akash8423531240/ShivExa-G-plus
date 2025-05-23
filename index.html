@@ -16,25 +16,32 @@
       position: sticky;
       top: 0;
       z-index: 1000;
+      background-color: #e5faff; /* Match header background */
     }
     
     #top-header-slot iframe {
       width: 100%;
       border: none;
-      height: 96px;
+      height: 140px; /* Increased height to accommodate stories */
       display: block;
+    }
+    
+    #next-section-slot {
+      margin-top: 10px; /* Add spacing below header */
     }
     
     #next-section-slot iframe {
       width: 100%;
       border: none;
       margin-bottom: 30px;
+      display: block; /* Ensure proper iframe display */
     }
     
     .footer {
       text-align: center;
       padding: 35px;
       background: #f1f1f1;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -57,5 +64,17 @@
   <div class="footer">
     <h1>ShivExa Global Plus — Coming Soon</h1>
   </div>
+
+  <script>
+    // Ensure iframes load properly
+    document.addEventListener('DOMContentLoaded', function() {
+      const iframes = document.querySelectorAll('iframe');
+      iframes.forEach(iframe => {
+        iframe.onload = function() {
+          this.style.height = this.contentWindow.document.body.scrollHeight + 'px';
+        };
+      });
+    });
+  </script>
 </body>
 </html>
