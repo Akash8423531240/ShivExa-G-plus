@@ -2,20 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ShivExa Global Plus</title>
   <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      padding-top: 96px; /* Reduced from 30px to accommodate stories */
+      overflow-x: hidden;
+    }
+    
+    #top-header-slot {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
     
     #top-header-slot iframe {
       width: 100%;
       border: none;
-      height: 96px; /* Increased height for stories */
+      height: 96px;
+      display: block;
     }
     
     #next-section-slot iframe {
