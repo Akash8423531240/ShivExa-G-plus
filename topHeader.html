@@ -12,10 +12,10 @@
       top: 0;
       left: 0;
       width: 100%;
-      background-color: #ffffff;
+      background-color: #e5faff;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       z-index: 1000;
-      padding: 10px 0;
+      padding: 10px 0 0 0; /* Reduced bottom padding */
     }
 
     .header-container {
@@ -26,8 +26,8 @@
 
     /* Logo Styles */
     .logo {
-      font-size: 18px;
-      font-weight: 800;
+      font-size: 26px; /* Updated as requested */
+      font-weight: 900;
       color: #000;
       font-family: 'Segoe UI', Arial, sans-serif;
       text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
@@ -36,21 +36,20 @@
 
     .logo::after {
       content: " pro";
-      font-size: 14px;
-      font-weight: 700;
-      color: #0a8f08;
+      font-size: 18px; /* Updated as requested */
+      font-weight: 800;
+      color: #585858;
       vertical-align: middle;
     }
 
-    /* Header Top Row */
+    /* Rest of your CSS remains exactly the same as your perfect original */
     .header-top-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 15px 10px 15px;
+      padding: 0 15px 5px 15px; /* Reduced bottom padding */
     }
 
-    /* Header Icons */
     .header-icons {
       display: flex;
       align-items: center;
@@ -69,7 +68,6 @@
       transform: scale(1.1);
     }
 
-    /* Notification Badge */
     .notification-badge {
       position: absolute;
       top: -5px;
@@ -86,7 +84,6 @@
       font-weight: bold;
     }
 
-    /* Story Section */
     .stories-container {
       display: flex;
       padding: 10px 15px;
@@ -129,7 +126,6 @@
       font-weight: 500;
     }
 
-    /* Your Story special styling */
     .your-story .story-avatar {
       border-color: #ccc;
     }
@@ -209,4 +205,4 @@
     });
   </script>
 </body>
-              </html>
+            </html>
