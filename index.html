@@ -1,16 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ShivExa Global Plus</title>
-
-  <!-- External CSS Files -->
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/header.css"> <!-- Header Styles -->
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      padding-top: 150px; /* Header height ke liye space chhodna */
+    }
+    
+    #top-header-slot iframe {
+      width: 100%;
+      border: none;
+      height: 150px; /* Fixed height for header */
+    }
+    
+    #next-section-slot iframe {
+      width: 100%;
+      border: none;
+      margin-bottom: 20px;
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 20px;
+      background: #f1f1f1;
+    }
+  </style>
 </head>
 <body>
-
   <!-- Top Header Section -->
   <div id="top-header-slot">
     <iframe src="./topheader.html" title="Top Header" scrolling="no"></iframe>
@@ -29,42 +50,5 @@
   <div class="footer">
     <h1>ShivExa Global Plus — Coming Soon</h1>
   </div>
-
-  <script>
-    // Sample stories
-    const followers = [
-      { id: 1, name: 'User1', avatar: 'https://via.placeholder.com/60/ff4757' },
-      { id: 2, name: 'User2', avatar: 'https://via.placeholder.com/60/70a1ff' },
-      { id: 3, name: 'User3', avatar: 'https://via.placeholder.com/60/2ed573' }
-    ];
-
-    // Load stories
-    document.addEventListener('DOMContentLoaded', function() {
-      const storiesContainer = document.querySelector('.stories-container');
-
-      followers.forEach(follower => {
-        const storyElement = document.createElement('div');
-        storyElement.className = 'story';
-        storyElement.innerHTML = `
-          <img src="${follower.avatar}" alt="${follower.name}" class="story-avatar">
-          <span class="story-username">${follower.name}</span>
-        `;
-        storiesContainer.appendChild(storyElement);
-      });
-    });
-
-    // Icon Click Handlers
-    document.querySelector('.cart-icon')?.addEventListener('click', function() {
-      alert('Cart clicked - would open cart modal');
-    });
-
-    document.querySelector('.notification-icon')?.addEventListener('click', function() {
-      alert('Notifications clicked - would open notifications');
-    });
-
-    document.querySelector('.post-icon')?.addEventListener('click', function() {
-      alert('+ clicked - would open post creation');
-    });
-  </script>
 </body>
 </html>
