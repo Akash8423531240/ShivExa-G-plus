@@ -37,6 +37,23 @@
       padding: 35px;
       background: #f1f1f1;
     }
+
+    /* Story Button in Header */
+    .story-header-btn {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #0095f6;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 1001;
+    }
   </style>
 
   <!-- Story CSS files -->
@@ -48,6 +65,8 @@
   <!-- Top Header Section -->
   <div id="top-header-slot">
     <iframe src="./topheader.html" title="Top Header" scrolling="no" id="header-frame"></iframe>
+    <!-- Story Button Added Here -->
+    <button class="story-header-btn" id="storyTriggerBtn">+</button>
   </div>
 
   <!-- Breaking News Section -->
@@ -67,21 +86,59 @@
   <!-- Story JavaScript -->
   <script src="instagram-story.js"></script>
   
-  <!-- Add this script for cross-frame communication -->
+  <!-- Main Integration Script -->
   <script>
     // Wait for all iframes to load
     window.addEventListener('DOMContentLoaded', function() {
-      const headerFrame = document.getElementById('header-frame');
+      // Initialize Story Feature
+      const storyTriggerBtn = document.getElementById('storyTriggerBtn');
       
-      // Add event listener for story button clicks
+      // Load Story Scripts Dynamically
+      function loadScript(src) {
+        return new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = src;
+          script.onload = resolve;
+          script.onerror = reject;
+          document.body.appendChild(script);
+        });
+      }
+
+      // Story Button Click Handler
+      storyTriggerBtn.addEventListener('click', async function() {
+        try {
+          // Load required scripts
+          await loadScript('/js/StoryUploader.js');
+          await loadScript('/js/StoryEditor.js');
+          await loadScript('/js/StoryTextTool.js');
+          await loadScript('/js/StoryStickers.js');
+          await loadScript('/js/StoryMusic.js');
+          await loadScript('/js/StoryFilterPresets.js');
+          await loadScript('/js/StoryDrawing.js');
+          await loadScript('/js/MediaCropper.js');
+          await loadScript('/js/StoryPreview.js');
+          
+          // Initialize Story Uploader
+          new StoryUploader();
+          
+        } catch (error) {
+          console.error('Error loading story features:', error);
+          alert('Story feature failed to load. Please try again.');
+        }
+      });
+
+      // Cross-frame communication (if needed)
       window.addEventListener('message', function(event) {
         if (event.data === 'openStoryUploader') {
-          // Trigger your story upload functionality here
-          alert('Story uploader will open - implement your logic here');
-          // Example: window.openStoryUploadModal();
+          storyTriggerBtn.click();
         }
       });
     });
+
+    // Make StoryUploader globally available if needed
+    window.openStoryUploadModal = function() {
+      document.getElementById('storyTriggerBtn').click();
+    };
   </script>
 </body>
   </html>
