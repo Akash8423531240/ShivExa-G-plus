@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Header</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     /* ===== Top Header Styles ===== */
     .top-header {
@@ -30,7 +30,7 @@
       font-weight: 900;
       color: #000;
       font-family: 'Segoe UI', Arial, sans-serif;
-      text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
       letter-spacing: 0.5px;
     }
 
@@ -81,7 +81,7 @@
     /* Story Section */
     .stories-container {
       display: flex;
-      padding: 8px 15px 8px 15px;
+      padding: 8px 15px;
       overflow-x: auto;
       scrollbar-width: none;
       gap: 12px;
@@ -135,18 +135,18 @@
       border-color: #6a0dad;
     }
 
-    /* Story button styles */
+    /* Story button styles - green plus bottom-right */
     .story-icon {
       position: absolute;
-      bottom: 15px;
-      right: -2px;
-      background-color: #fff;
-      color: #0a8f08;
+      bottom: 6px;
+      right: 6px;
+      background-color: #0a8f08; /* Green */
+      color: #fff;
       border: 2px solid #0a8f08;
       border-radius: 50%;
-      font-size: 12px;
-      width: 18px;
-      height: 18px;
+      font-size: 14px;
+      width: 20px;
+      height: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -154,14 +154,11 @@
       cursor: pointer;
       padding: 0;
       z-index: 2;
+      transition: transform 0.2s ease;
     }
 
     .story-icon:hover {
-      transform: scale(1.1);
-    }
-
-    .story-icon:focus {
-      outline: none;
+      transform: scale(1.2);
     }
   </style>
 </head>
@@ -183,81 +180,74 @@
           </div>
         </div>
       </div>
-      
+
       <div class="stories-container">
         <!-- Your Story -->
-        <div class="story your-story">
-          <img src="https://via.placeholder.com/64/cccccc" alt="Your Story" class="story-avatar">
-          <button class="story-icon" id="createStoryBtn">+</button>
+        <div class="story your-story" id="yourStory">
+          <img src="https://via.placeholder.com/64/cccccc" alt="Your Story" class="story-avatar" />
+          <button class="story-icon" id="createStoryBtn" aria-label="Create Story">+</button>
           <span class="story-username">Your Story</span>
         </div>
-        <!-- Followed users' stories will appear here -->
+        <!-- Followed users' stories will appear here dynamically -->
       </div>
     </div>
   </header>
 
   <script>
-    // This will store the users you follow
     const followedUsers = [];
 
-    // Function to add a followed user's story
     function addFollowedUserStory(user) {
       const storiesContainer = document.querySelector('.stories-container');
-      
+
       const storyElement = document.createElement('div');
       storyElement.className = 'story';
       storyElement.innerHTML = `
-        <img src="${user.avatar}" alt="${user.name}" class="story-avatar">
+        <img src="${user.avatar}" alt="${user.name}" class="story-avatar" />
         <span class="story-username">${user.name}</span>
       `;
-      
-      // Add click handler for the story
-      storyElement.addEventListener('click', function() {
+
+      storyElement.addEventListener('click', function () {
         this.classList.add('seen');
+        // TODO: Add story view logic here
       });
-      
+
       storiesContainer.appendChild(storyElement);
     }
 
-    // Story creation functionality
     function initializeStoryFeature() {
       const createStoryBtn = document.getElementById('createStoryBtn');
-      
-      createStoryBtn.addEventListener('click', function(e) {
+
+      createStoryBtn.addEventListener('click', function (e) {
         e.stopPropagation();
-        
-        // Send message to parent window to open story uploader
+        // Link to main.js or index.js story creation handler
         if (window.parent) {
           window.parent.postMessage('openStoryUploader', '*');
         }
-        
-        // Add purple border when story is added
+        // Highlight your story border on create
         document.querySelector('.your-story .story-avatar').style.borderColor = '#6a0dad';
       });
     }
 
-    // Example function to follow a user
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeStoryFeature();
+
+      // Demo followed users (remove in production)
+      setTimeout(() => {
+        followUser(1, 'Rahul');
+        followUser(2, 'Priya');
+      }, 1000);
+    });
+
     function followUser(userId, userName) {
       const newUser = {
         id: userId,
         name: userName,
-        avatar: `https://via.placeholder.com/64/${Math.floor(Math.random()*16777215).toString(16)}`
+        avatar: `https://via.placeholder.com/64/${Math.floor(Math.random() * 16777215).toString(16)}`
       };
-      
+
       followedUsers.push(newUser);
       addFollowedUserStory(newUser);
     }
-
-    // Initialize when DOM is loaded
-    document.addEventListener('DOMContentLoaded', function() {
-      initializeStoryFeature();
-      
-      // DEMO: Add some followed users (remove in production)
-      setTimeout(() => {
-        followUser(1, "Rahul");
-        followUser(2, "Priya");
-      }, 1000);
-    });
   </script>
 </body>
-  </html>
+</html>
