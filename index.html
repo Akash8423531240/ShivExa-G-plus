@@ -38,7 +38,6 @@
       background: #f1f1f1;
     }
 
-    /* Story Button in Header */
     .story-header-btn {
       position: absolute;
       right: 15px;
@@ -56,25 +55,25 @@
     }
   </style>
 
-  <!-- Story CSS files -->
-  <link rel="stylesheet" href="/css/storyUploader.css" />
-  <link rel="stylesheet" href="/css/storyEditor.css" />
+  <!-- Story CSS -->
+  <link rel="stylesheet" href="css/storyUploader.css" />
+  <link rel="stylesheet" href="css/storyEditor.css" />
 </head>
 <body>
 
-  <!-- Top Header Section -->
+  <!-- Header -->
   <div id="top-header-slot">
-    <iframe src="./topheader.html" title="Top Header" scrolling="no" id="header-frame"></iframe>
+    <iframe src="topheader.html" title="Top Header" scrolling="no" id="header-frame"></iframe>
     <button class="story-header-btn" id="storyTriggerBtn">+</button>
   </div>
 
-  <!-- Breaking News & Content Sections -->
+  <!-- Main Content -->
   <div id="next-section-slot">
-    <iframe src="./BreakingNewsBar.html" title="Breaking News"></iframe>
-    <iframe src="./NewspaperSlider.html" title="Newspaper Slider"></iframe>
-    <iframe src="./launchpad.html" title="Launch Pad"></iframe>
-    <iframe src="./bookboxslide.html" title="Book Box Slide"></iframe>
-    <iframe src="./bookpdffile.html" title="Book PDF Viewer"></iframe>
+    <iframe src="BreakingNewsBar.html" title="Breaking News"></iframe>
+    <iframe src="NewspaperSlider.html" title="Newspaper Slider"></iframe>
+    <iframe src="launchpad.html" title="Launch Pad"></iframe>
+    <iframe src="bookboxslide.html" title="Book Box Slide"></iframe>
+    <iframe src="bookpdffile.html" title="Book PDF Viewer"></iframe>
   </div>
 
   <!-- Footer -->
@@ -82,65 +81,54 @@
     <h1>ShivExa Global Plus — Coming Soon</h1>
   </div>
 
-  <!-- Story JavaScript Integration -->
+  <!-- Story Feature JavaScript -->
   <script>
     window.addEventListener('DOMContentLoaded', function () {
       const storyTriggerBtn = document.getElementById('storyTriggerBtn');
 
-      // Dynamic loader for external JS
       function loadScript(src) {
         return new Promise((resolve, reject) => {
           const script = document.createElement('script');
           script.src = src;
           script.onload = () => resolve();
-          script.onerror = () => reject(new Error(`Failed to load: ${src}`));
+          script.onerror = () => reject(new Error('Failed to load: ' + src));
           document.body.appendChild(script);
         });
       }
 
-      // Story Trigger Handler
       storyTriggerBtn.addEventListener('click', async function () {
         try {
-          // Optional: alert only on small screen
-          if (window.innerWidth <= 480) {
-            console.log("Mobile device detected, loading story modules...");
-          }
-
-          // Load all modules
-          await loadScript('/js/StoryUploader.js');
-          await loadScript('/js/StoryEditor.js');
-          await loadScript('/js/StoryTextTool.js');
-          await loadScript('/js/StoryStickers.js');
-          await loadScript('/js/StoryMusic.js');
-          await loadScript('/js/StoryFilterPresets.js');
-          await loadScript('/js/StoryDrawing.js');
-          await loadScript('/js/MediaCropper.js');
-          await loadScript('/js/StoryPreview.js');
+          console.log("Story upload modules loading...");
+          
+          await loadScript('js/StoryUploader.js');
+          await loadScript('js/StoryEditor.js');
+          await loadScript('js/StoryTextTool.js');
+          await loadScript('js/StoryStickers.js');
+          await loadScript('js/StoryMusic.js');
+          await loadScript('js/StoryFilterPresets.js');
+          await loadScript('js/StoryDrawing.js');
+          await loadScript('js/MediaCropper.js');
+          await loadScript('js/StoryPreview.js');
 
           if (typeof StoryUploader === 'function') {
             new StoryUploader();
           } else {
-            alert("StoryUploader load nahi hua. JS file sahi hai na?");
+            alert("StoryUploader function missing. Check the JS file.");
           }
 
-        } catch (error) {
-          console.error('Story feature load error:', error);
-          alert('Story feature failed to load. Please check console or file paths.');
+        } catch (err) {
+          console.error(err);
+          alert('Failed to load story features.');
         }
       });
 
-      // External trigger for story (if needed)
-      window.openStoryUploadModal = function () {
-        storyTriggerBtn.click();
-      };
+      // For triggering story upload externally
+      window.openStoryUploadModal = () => storyTriggerBtn.click();
 
-      // Cross-frame message
-      window.addEventListener('message', function (event) {
-        if (event.data === 'openStoryUploader') {
-          storyTriggerBtn.click();
-        }
+      window.addEventListener('message', function (e) {
+        if (e.data === 'openStoryUploader') storyTriggerBtn.click();
       });
     });
   </script>
 </body>
-  </html>
+</html>
