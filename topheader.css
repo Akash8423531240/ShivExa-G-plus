@@ -1,3 +1,4 @@
+<style>
 /* ===== Top Header Styles ===== */
 .top-header {
   position: fixed;
@@ -112,6 +113,11 @@
   padding: 2px;
   object-fit: cover;
   background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+  transition: border-color 0.3s;
+}
+
+.story.seen .story-avatar {
+  border-color: #ccc;
 }
 
 .story-username {
@@ -127,7 +133,7 @@
 
 /* Your Story special styling */
 .your-story .story-avatar {
-  border-color: #ccc;
+  border-color: #6a0dad;
 }
 
 .your-story::after {
@@ -146,4 +152,106 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  }
+}
+
+/* Story button styles */
+.story-icon {
+  position: absolute;
+  bottom: 15px;
+  right: -2px;
+  background-color: transparent;
+  border: none;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.story-icon:focus {
+  outline: none;
+}
+
+/* Hide the actual button text */
+.story-icon span {
+  display: none;
+}
+
+/* Following users stories */
+.following-story {
+  display: none; /* Hidden by default */
+}
+
+/* Show following stories when user has followers */
+.has-following .following-story {
+  display: flex;
+}
+</style>
+
+<div class="top-header">
+  <div class="header-container">
+    <div class="header-top-row">
+      <div class="logo">YourLogo</div>
+      <div class="header-icons">
+        <div class="header-icon">🔔<span class="notification-badge">3</span></div>
+        <div class="header-icon">✉️</div>
+      </div>
+    </div>
+    
+    <div class="stories-container">
+      <!-- Your Story -->
+      <div class="story your-story">
+        <img src="your-avatar.jpg" class="story-avatar">
+        <button class="story-icon" aria-label="Add Story"><span>Add Story</span></button>
+        <div class="story-username">Your Story</div>
+      </div>
+      
+      <!-- Following Stories (hidden by default) -->
+      <div class="story following-story">
+        <img src="user1.jpg" class="story-avatar">
+        <div class="story-username">User1</div>
+      </div>
+      <div class="story following-story">
+        <img src="user2.jpg" class="story-avatar">
+        <div class="story-username">User2</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Function to handle story viewing
+function handleStoryView(storyElement) {
+  // Mark as seen
+  storyElement.classList.add('seen');
+  
+  // You can add additional logic here for tracking viewed stories
+}
+
+// Add click event to stories
+document.querySelectorAll('.story:not(.your-story)').forEach(story => {
+  story.addEventListener('click', function() {
+    handleStoryView(this);
+  });
+});
+
+// Add click event to story button
+document.querySelector('.story-icon').addEventListener('click', function(e) {
+  e.stopPropagation(); // Prevent triggering the story click event
+  
+  // Add your story upload logic here
+  alert('Add story functionality would go here');
+  
+  // For demo, we'll just add a purple border to your story
+  const yourStory = document.querySelector('.your-story');
+  yourStory.querySelector('.story-avatar').style.borderColor = '#6a0dad';
+});
+
+// This would be triggered when you follow someone
+function followUser() {
+  document.querySelector('.stories-container').classList.add('has-following');
+}
+
+// Uncomment this to simulate following someone
+// followUser();
+</script>
