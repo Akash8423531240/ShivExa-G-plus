@@ -47,7 +47,7 @@
 <body>
   <!-- Top Header Section -->
   <div id="top-header-slot">
-    <iframe src="./topheader.html" title="Top Header" scrolling="no"></iframe>
+    <iframe src="./topheader.html" title="Top Header" scrolling="no" id="header-frame"></iframe>
   </div>
 
   <!-- Breaking News Section -->
@@ -66,5 +66,22 @@
 
   <!-- Story JavaScript -->
   <script src="instagram-story.js"></script>
+  
+  <!-- Add this script for cross-frame communication -->
+  <script>
+    // Wait for all iframes to load
+    window.addEventListener('DOMContentLoaded', function() {
+      const headerFrame = document.getElementById('header-frame');
+      
+      // Add event listener for story button clicks
+      window.addEventListener('message', function(event) {
+        if (event.data === 'openStoryUploader') {
+          // Trigger your story upload functionality here
+          alert('Story uploader will open - implement your logic here');
+          // Example: window.openStoryUploadModal();
+        }
+      });
+    });
+  </script>
 </body>
-</html>hai 
+  </html>
