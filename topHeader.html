@@ -188,7 +188,7 @@
         <!-- Your Story -->
         <div class="story your-story">
           <img src="https://via.placeholder.com/64/cccccc" alt="Your Story" class="story-avatar">
-          <button class="story-icon">+</button>
+          <button class="story-icon" id="createStoryBtn">+</button>
           <span class="story-username">Your Story</span>
         </div>
         <!-- Followed users' stories will appear here -->
@@ -219,34 +219,40 @@
       storiesContainer.appendChild(storyElement);
     }
 
-    // Example function to follow a user (you would call this when following someone)
+    // Story creation functionality
+    function initializeStoryFeature() {
+      const createStoryBtn = document.getElementById('createStoryBtn');
+      
+      createStoryBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        
+        // Send message to parent window to open story uploader
+        if (window.parent) {
+          window.parent.postMessage('openStoryUploader', '*');
+        }
+        
+        // Add purple border when story is added
+        document.querySelector('.your-story .story-avatar').style.borderColor = '#6a0dad';
+      });
+    }
+
+    // Example function to follow a user
     function followUser(userId, userName) {
-      // In a real app, you would get this data from your backend
       const newUser = {
         id: userId,
         name: userName,
         avatar: `https://via.placeholder.com/64/${Math.floor(Math.random()*16777215).toString(16)}`
       };
       
-      // Add to followed users array
       followedUsers.push(newUser);
-      
-      // Add their story to the container
       addFollowedUserStory(newUser);
     }
 
-    // Add story button functionality
+    // Initialize when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
-      const addStoryBtn = document.querySelector('.story-icon');
-      addStoryBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        alert('Add story functionality will go here');
-        // Add purple border when story is added
-        document.querySelector('.your-story .story-avatar').style.borderColor = '#6a0dad';
-      });
-
-      // DEMO: Add some followed users after 1 second (just for demonstration)
-      // In your real app, you would call followUser() when a user actually follows someone
+      initializeStoryFeature();
+      
+      // DEMO: Add some followed users (remove in production)
       setTimeout(() => {
         followUser(1, "Rahul");
         followUser(2, "Priya");
