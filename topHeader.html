@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ShivExa Global Plus</title>
+  <title>Header</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     /* ===== Top Header Styles ===== */
@@ -135,8 +135,8 @@
       border-color: #6a0dad;
     }
 
-    .your-story::after {
-      content: "+";
+    /* Story button styles */
+    .story-icon {
       position: absolute;
       bottom: 15px;
       right: -2px;
@@ -151,72 +151,18 @@
       align-items: center;
       justify-content: center;
       font-weight: bold;
-    }
-
-    /* Story button styles */
-    .story-icon {
-      position: absolute;
-      bottom: 15px;
-      right: -2px;
-      background-color: transparent;
-      border: none;
-      width: 22px;
-      height: 22px;
+      cursor: pointer;
       padding: 0;
-      cursor: pointer;
       z-index: 2;
-      opacity: 0; /* Hidden but clickable */
     }
 
-    /* Instagram Story Feature Styles */
-    .story-upload-container, .story-editor-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      z-index: 2000;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+    .story-icon:hover {
+      transform: scale(1.1);
     }
 
-    .story-btn {
-      padding: 12px 24px;
-      margin: 10px;
-      border: none;
-      border-radius: 24px;
-      background: #0095f6;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
+    .story-icon:focus {
+      outline: none;
     }
-
-    .media-display {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .editor-media {
-      max-height: 100%;
-      max-width: 100%;
-      object-fit: contain;
-    }
-
-    .editor-toolbar {
-      display: flex;
-      justify-content: space-around;
-      padding: 15px;
-      background: rgba(0, 0, 0, 0.7);
-    }
-
-    /* Add other Instagram Story styles as needed */
   </style>
 </head>
 <body>
@@ -242,194 +188,69 @@
         <!-- Your Story -->
         <div class="story your-story">
           <img src="https://via.placeholder.com/64/cccccc" alt="Your Story" class="story-avatar">
-          <button class="story-icon" id="addStoryBtn" aria-label="Add Story"></button>
+          <button class="story-icon">+</button>
           <span class="story-username">Your Story</span>
         </div>
-        <!-- Stories will be loaded here by JavaScript -->
+        <!-- Followed users' stories will appear here -->
       </div>
     </div>
   </header>
 
-  <!-- Your main content here -->
-
   <script>
-    // Instagram Story Feature
-    class StoryUploader {
-      constructor() {
-        this.mediaFiles = [];
-        this.initElements();
-        this.bindEvents();
-      }
+    // This will store the users you follow
+    const followedUsers = [];
 
-      initElements() {
-        this.uploadContainer = document.createElement('div');
-        this.uploadContainer.className = 'story-upload-container';
-        
-        this.galleryBtn = document.createElement('button');
-        this.galleryBtn.className = 'story-btn gallery-btn';
-        this.galleryBtn.textContent = 'Gallery';
-        
-        this.cameraBtn = document.createElement('button');
-        this.cameraBtn.className = 'story-btn camera-btn';
-        this.cameraBtn.textContent = 'Camera';
-        
-        this.closeBtn = document.createElement('button');
-        this.closeBtn.className = 'story-close-btn';
-        this.closeBtn.innerHTML = '&times;';
-        
-        this.uploadContainer.append(this.closeBtn, this.galleryBtn, this.cameraBtn);
-        document.body.appendChild(this.uploadContainer);
-      }
-
-      bindEvents() {
-        this.galleryBtn.addEventListener('click', () => this.openGallery());
-        this.cameraBtn.addEventListener('click', () => this.openCamera());
-        this.closeBtn.addEventListener('click', () => this.uploadContainer.remove());
-      }
-
-      openGallery() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*, video/*';
-        input.multiple = true;
-        input.click();
-        
-        input.onchange = (e) => {
-          this.mediaFiles = Array.from(e.target.files);
-          if (this.mediaFiles.length > 0) {
-            this.showMediaPreview();
-          }
-        };
-      }
-
-      async openCamera() {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({ 
-            video: { facingMode: 'user' },
-            audio: false 
-          });
-          this.showCameraInterface(stream);
-        } catch (err) {
-          console.error("Camera error:", err);
-          alert("Could not access camera");
-        }
-      }
-
-      showCameraInterface(stream) {
-        this.uploadContainer.innerHTML = '';
-        
-        this.cameraPreview = document.createElement('video');
-        this.cameraPreview.className = 'camera-preview';
-        this.cameraPreview.srcObject = stream;
-        this.cameraPreview.play();
-        
-        this.captureBtn = document.createElement('button');
-        this.captureBtn.className = 'capture-btn';
-        this.captureBtn.innerHTML = '●';
-        
-        this.flipBtn = document.createElement('button');
-        this.flipBtn.className = 'flip-btn';
-        this.flipBtn.textContent = '🔄';
-        
-        this.uploadContainer.append(this.cameraPreview, this.captureBtn, this.flipBtn);
-        
-        this.captureBtn.addEventListener('click', () => this.capturePhoto());
-        this.flipBtn.addEventListener('click', () => this.flipCamera());
-      }
-
-      capturePhoto() {
-        const canvas = document.createElement('canvas');
-        canvas.width = this.cameraPreview.videoWidth;
-        canvas.height = this.cameraPreview.videoHeight;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(this.cameraPreview, 0, 0);
-        
-        canvas.toBlob(blob => {
-          this.mediaFiles = [new File([blob], 'camera-capture.png', { type: 'image/png' })];
-          this.cameraPreview.srcObject.getTracks().forEach(track => track.stop());
-          this.showMediaPreview();
-        }, 'image/png');
-      }
-
-      flipCamera() {
-        const stream = this.cameraPreview.srcObject;
-        const videoTrack = stream.getVideoTracks()[0];
-        const settings = videoTrack.getSettings();
-        
-        videoTrack.applyConstraints({
-          facingMode: settings.facingMode === 'user' ? 'environment' : 'user'
-        });
-      }
-
-      showMediaPreview() {
-        this.uploadContainer.innerHTML = '';
-        
-        const previewContainer = document.createElement('div');
-        previewContainer.className = 'media-preview-container';
-        
-        this.mediaFiles.forEach((file, index) => {
-          const mediaElement = file.type.startsWith('image') ? 
-            document.createElement('img') : document.createElement('video');
-          
-          mediaElement.src = URL.createObjectURL(file);
-          mediaElement.className = 'media-preview';
-          mediaElement.dataset.index = index;
-          
-          if (file.type.startsWith('video')) {
-            mediaElement.controls = true;
-          }
-          
-          previewContainer.appendChild(mediaElement);
-        });
-        
-        const nextBtn = document.createElement('button');
-        nextBtn.className = 'story-btn next-btn';
-        nextBtn.textContent = 'Next';
-        nextBtn.addEventListener('click', () => {
-          this.proceedToEditor();
-        });
-        
-        this.uploadContainer.append(previewContainer, nextBtn);
-      }
-
-      proceedToEditor() {
-        this.uploadContainer.remove();
-        new StoryEditor(this.mediaFiles);
-      }
+    // Function to add a followed user's story
+    function addFollowedUserStory(user) {
+      const storiesContainer = document.querySelector('.stories-container');
+      
+      const storyElement = document.createElement('div');
+      storyElement.className = 'story';
+      storyElement.innerHTML = `
+        <img src="${user.avatar}" alt="${user.name}" class="story-avatar">
+        <span class="story-username">${user.name}</span>
+      `;
+      
+      // Add click handler for the story
+      storyElement.addEventListener('click', function() {
+        this.classList.add('seen');
+      });
+      
+      storiesContainer.appendChild(storyElement);
     }
 
-    // Initialize when story button is clicked
-    document.getElementById('addStoryBtn').addEventListener('click', function() {
-      new StoryUploader();
-    });
+    // Example function to follow a user (you would call this when following someone)
+    function followUser(userId, userName) {
+      // In a real app, you would get this data from your backend
+      const newUser = {
+        id: userId,
+        name: userName,
+        avatar: `https://via.placeholder.com/64/${Math.floor(Math.random()*16777215).toString(16)}`
+      };
+      
+      // Add to followed users array
+      followedUsers.push(newUser);
+      
+      // Add their story to the container
+      addFollowedUserStory(newUser);
+    }
 
-    // Sample stories data
-    const followers = [
-      { id: 1, name: 'User1', avatar: 'https://via.placeholder.com/64/ff4757' },
-      { id: 2, name: 'User2', avatar: 'https://via.placeholder.com/64/70a1ff' },
-      { id: 3, name: 'User3', avatar: 'https://via.placeholder.com/64/2ed573' }
-    ];
-
-    // Load stories
+    // Add story button functionality
     document.addEventListener('DOMContentLoaded', function() {
-      const storiesContainer = document.querySelector('.stories-container');
-
-      followers.forEach(follower => {
-        const storyElement = document.createElement('div');
-        storyElement.className = 'story';
-        storyElement.innerHTML = `
-          <img src="${follower.avatar}" alt="${follower.name}" class="story-avatar">
-          <span class="story-username">${follower.name}</span>
-        `;
-        storiesContainer.appendChild(storyElement);
+      const addStoryBtn = document.querySelector('.story-icon');
+      addStoryBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        alert('Add story functionality will go here');
+        // Add purple border when story is added
+        document.querySelector('.your-story .story-avatar').style.borderColor = '#6a0dad';
       });
 
-      // Story click handler
-      document.querySelectorAll('.story').forEach(story => {
-        story.addEventListener('click', function() {
-          this.classList.add('seen');
-        });
-      });
+      // DEMO: Add some followed users after 1 second (just for demonstration)
+      // In your real app, you would call followUser() when a user actually follows someone
+      setTimeout(() => {
+        followUser(1, "Rahul");
+        followUser(2, "Priya");
+      }, 1000);
     });
   </script>
 </body>
