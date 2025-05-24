@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>ShivExa Global Plus</title>
-  
+
   <style>
     html, body {
       margin: 1px;
@@ -12,26 +12,26 @@
       font-family: Arial, sans-serif;
       overflow-x: hidden;
     }
-    
+
     #top-header-slot {
       position: sticky;
       top: 0;
       z-index: 1000;
     }
-    
+
     #top-header-slot iframe {
       width: 100%;
       border: none;
       height: 147px;
       display: block;
     }
-    
+
     #next-section-slot iframe {
       width: 100%;
       border: none;
       margin-bottom: 30px;
     }
-    
+
     .footer {
       text-align: center;
       padding: 35px;
@@ -59,17 +59,16 @@
   <!-- Story CSS files -->
   <link rel="stylesheet" href="/css/storyUploader.css" />
   <link rel="stylesheet" href="/css/storyEditor.css" />
-  
 </head>
 <body>
+
   <!-- Top Header Section -->
   <div id="top-header-slot">
     <iframe src="./topheader.html" title="Top Header" scrolling="no" id="header-frame"></iframe>
-    <!-- Story Button Added Here -->
     <button class="story-header-btn" id="storyTriggerBtn">+</button>
   </div>
 
-  <!-- Breaking News Section -->
+  <!-- Breaking News & Content Sections -->
   <div id="next-section-slot">
     <iframe src="./BreakingNewsBar.html" title="Breaking News"></iframe>
     <iframe src="./NewspaperSlider.html" title="Newspaper Slider"></iframe>
@@ -83,31 +82,31 @@
     <h1>ShivExa Global Plus — Coming Soon</h1>
   </div>
 
-  <!-- Story JavaScript -->
-  <script src="instagram-story.js"></script>
-  
-  <!-- Main Integration Script -->
+  <!-- Story JavaScript Integration -->
   <script>
-    // Wait for all iframes to load
-    window.addEventListener('DOMContentLoaded', function() {
-      // Initialize Story Feature
+    window.addEventListener('DOMContentLoaded', function () {
       const storyTriggerBtn = document.getElementById('storyTriggerBtn');
-      
-      // Load Story Scripts Dynamically
+
+      // Dynamic loader for external JS
       function loadScript(src) {
         return new Promise((resolve, reject) => {
           const script = document.createElement('script');
           script.src = src;
-          script.onload = resolve;
-          script.onerror = reject;
+          script.onload = () => resolve();
+          script.onerror = () => reject(new Error(`Failed to load: ${src}`));
           document.body.appendChild(script);
         });
       }
 
-      // Story Button Click Handler
-      storyTriggerBtn.addEventListener('click', async function() {
+      // Story Trigger Handler
+      storyTriggerBtn.addEventListener('click', async function () {
         try {
-          // Load required scripts
+          // Optional: alert only on small screen
+          if (window.innerWidth <= 480) {
+            console.log("Mobile device detected, loading story modules...");
+          }
+
+          // Load all modules
           await loadScript('/js/StoryUploader.js');
           await loadScript('/js/StoryEditor.js');
           await loadScript('/js/StoryTextTool.js');
@@ -117,28 +116,31 @@
           await loadScript('/js/StoryDrawing.js');
           await loadScript('/js/MediaCropper.js');
           await loadScript('/js/StoryPreview.js');
-          
-          // Initialize Story Uploader
-          new StoryUploader();
-          
+
+          if (typeof StoryUploader === 'function') {
+            new StoryUploader();
+          } else {
+            alert("StoryUploader load nahi hua. JS file sahi hai na?");
+          }
+
         } catch (error) {
-          console.error('Error loading story features:', error);
-          alert('Story feature failed to load. Please try again.');
+          console.error('Story feature load error:', error);
+          alert('Story feature failed to load. Please check console or file paths.');
         }
       });
 
-      // Cross-frame communication (if needed)
-      window.addEventListener('message', function(event) {
+      // External trigger for story (if needed)
+      window.openStoryUploadModal = function () {
+        storyTriggerBtn.click();
+      };
+
+      // Cross-frame message
+      window.addEventListener('message', function (event) {
         if (event.data === 'openStoryUploader') {
           storyTriggerBtn.click();
         }
       });
     });
-
-    // Make StoryUploader globally available if needed
-    window.openStoryUploadModal = function() {
-      document.getElementById('storyTriggerBtn').click();
-    };
   </script>
 </body>
   </html>
